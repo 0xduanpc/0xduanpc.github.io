@@ -229,6 +229,260 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/08/26/2.4%20%E5%AE%89%E8%A3%85%E5%B0%8F%E7%8B%90%E7%8B%B8%E9%92%B1%E5%8C%85%EF%BC%88%E8%B0%B7%E6%AD%8C%E6%B5%8F%E8%A7%88%E5%99%A8%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xduanpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/08/26/2.4%20%E5%AE%89%E8%A3%85%E5%B0%8F%E7%8B%90%E7%8B%B8%E9%92%B1%E5%8C%85%EF%BC%88%E8%B0%B7%E6%AD%8C%E6%B5%8F%E8%A7%88%E5%99%A8%EF%BC%89/" itemprop="url">2.4 安装小狐狸钱包（谷歌浏览器）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-08-26T17:18:26+08:00">
+                2024-08-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          1. 创建钱包创建时，提供12单词助记词，保存在安全位置，和测试环境区分开
+2. 切换网络添加本地链网络localhost链ID：区分不同链的唯一标识符，由社区共同维护货币符号：主网为ETH，不支持btc交易区块链浏览器：查看链上所有交易信息用私钥导入账号活动标签缓存了账号的交易信息
+
+          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2024/08/26/2.4%20%E5%AE%89%E8%A3%85%E5%B0%8F%E7%8B%90%E7%8B%B8%E9%92%B1%E5%8C%85%EF%BC%88%E8%B0%B7%E6%AD%8C%E6%B5%8F%E8%A7%88%E5%99%A8%EF%BC%89/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/08/26/2.3%20%E9%83%A8%E7%BD%B2%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xduanpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/08/26/2.3%20%E9%83%A8%E7%BD%B2%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/" itemprop="url">2.3 部署智能合约</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-08-26T17:15:18+08:00">
+                2024-08-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          1. 部署脚本123456789101112131415import &quot;@nomicfoundation/hardhat-ethers&quot;;import &#123; ethers &#125; from &quot;hardhat&quot;;async function deploy() &#123;  const HW = await ethers.getContractFactory(&quot;HelloWorld&quot;);  const hw = await HW.deploy();  await hw.waitForDeployment();  retur
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2024/08/26/2.3%20%E9%83%A8%E7%BD%B2%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/08/26/2.2%20%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83%E8%AF%BB%E5%8F%96%E3%80%81%E9%83%A8%E7%BD%B2%E3%80%81%E6%B5%8B%E8%AF%95%E5%90%88%E7%BA%A6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -303,7 +557,7 @@
           1. 安装依赖123$ yarn add -D ts-node typescript$ yarn add -D @types/mocha$ yarn add -D @nomiclabs/hardhat-ethers
 
 2. 测试脚本hardhat.config.js 改为 hardhat.config.ts添加空 json 文件 tsconfig.json
-12345678910111213import &quot;@nomiclabs/hardhat-ethers&quot;;import &#123; ethers &#125; from &quot;hardhat&quot;;impor
+1234567891011121314151617import &quot;@nomiclabs/hardhat-ethers&quot;;import &#123; ethers &#125; from &quot;hardhat&quo
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -650,7 +904,7 @@ Run server1$ hexo ser
               
                 <a href="/archives/%20%7C%7C%20archive">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
