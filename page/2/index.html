@@ -229,6 +229,132 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/08/26/2.3%20%E9%83%A8%E7%BD%B2%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xduanpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/08/26/2.3%20%E9%83%A8%E7%BD%B2%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/" itemprop="url">2.3 部署智能合约</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-08-26T17:15:18+08:00">
+                2024-08-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          1. 部署脚本123456789101112131415import &quot;@nomicfoundation/hardhat-ethers&quot;;import &#123; ethers &#125; from &quot;hardhat&quot;;async function deploy() &#123;  const HW = await ethers.getContractFactory(&quot;HelloWorld&quot;);  const hw = await HW.deploy();  await hw.waitForDeployment();  retur
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2024/08/26/2.3%20%E9%83%A8%E7%BD%B2%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/08/26/2.2%20%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83%E8%AF%BB%E5%8F%96%E3%80%81%E9%83%A8%E7%BD%B2%E3%80%81%E6%B5%8B%E8%AF%95%E5%90%88%E7%BA%A6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -429,10 +555,13 @@
       
         
           
-          1. 安装hardhat12$ yarn init -y$ yarn add -D harhat
+          1. 安装 hardhat12$ yarn init -y$ yarn add -D harhat
+
 2. 本地新建合约项目结构1$ npx hardhat
+
 目录结构123456789├── README.md├── contracts # solidity文件├── hardhat.config.js├── ignition # 部署合约的官方脚本，部署失败时可以回滚，暂时不用├── node_modules├── package-lock.json├── package.json├── scripts # 部署脚本└── test # 测试脚本
-Hardhat一个合约审计机构，编译和部署合约到
+
+Hardhat一个合约审计机构，编译和部
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -654,7 +783,7 @@ Run server1$ hexo ser
               
                 <a href="/archives/%20%7C%7C%20archive">
               
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

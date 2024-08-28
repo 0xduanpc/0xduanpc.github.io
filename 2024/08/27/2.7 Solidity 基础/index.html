@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="1. If语句1234567if(&lt;bool expr&gt;)&#123;	cond&#125; else if(...)&#123;&#125; else &#123;&#125; 2. 循环123for (uint i &#x3D; 0; i &lt; 10; ++i)&#123;	...&#125; 3. Contracts类似Class，合约的基本类型 1234567891011contra">
+<meta name="description" content="1. If 语句1234567if(&lt;bool expr&gt;)&#123;	cond&#125; else if(...)&#123;&#125; else &#123;&#125;  2. 循环123for (uint i &#x3D; 0; i &lt; 10; ++i)&#123;	...&#125;  3. Contracts类似 Class，合约的基本类型 1234567891011co">
 <meta property="og:type" content="article">
 <meta property="og:title" content="2.7 Solidity 基础">
 <meta property="og:url" content="http://example.com/2024/08/27/2.7%20Solidity%20%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="0xduanpc">
-<meta property="og:description" content="1. If语句1234567if(&lt;bool expr&gt;)&#123;	cond&#125; else if(...)&#123;&#125; else &#123;&#125; 2. 循环123for (uint i &#x3D; 0; i &lt; 10; ++i)&#123;	...&#125; 3. Contracts类似Class，合约的基本类型 1234567891011contra">
+<meta property="og:description" content="1. If 语句1234567if(&lt;bool expr&gt;)&#123;	cond&#125; else if(...)&#123;&#125; else &#123;&#125;  2. 循环123for (uint i &#x3D; 0; i &lt; 10; ++i)&#123;	...&#125;  3. Contracts类似 Class，合约的基本类型 1234567891011co">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-08-27T13:02:14.722Z">
-<meta property="article:modified_time" content="2024-08-27T13:07:36.971Z">
+<meta property="article:modified_time" content="2024-08-28T10:06:34.535Z">
 <meta property="article:author" content="0xduanpc">
 <meta name="twitter:card" content="summary">
 
@@ -299,25 +299,38 @@
       
 
       
-        <h2 id="1-If语句"><a href="#1-If语句" class="headerlink" title="1. If语句"></a>1. If语句</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(&lt;bool <span class="built_in">expr</span>&gt;)&#123;</span><br><span class="line">	cond</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span>(...)&#123;</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h2 id="1-If-语句"><a href="#1-If-语句" class="headerlink" title="1. If 语句"></a>1. If 语句</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(&lt;bool <span class="built_in">expr</span>&gt;)&#123;</span><br><span class="line">	cond</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span>(...)&#123;</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="2-循环"><a href="#2-循环" class="headerlink" title="2. 循环"></a>2. 循环</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (uint i = 0; i &lt; 10; ++i)&#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="3-Contracts"><a href="#3-Contracts" class="headerlink" title="3. Contracts"></a>3. Contracts</h2><p>类似Class，合约的基本类型</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">contract Name &#123;</span><br><span class="line">	...</span><br><span class="line">	uint foo = 5;</span><br><span class="line">	<span class="function"><span class="title">constructor</span></span>()&#123;</span><br><span class="line">		// 部署时执行一次</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">function</span> name() scope returns(<span class="built_in">type</span>) &#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="4-简单类型"><a href="#4-简单类型" class="headerlink" title="4. 简单类型"></a>4. 简单类型</h2><p>uint &#x3D; 256bit  |  uint8, uint16, uint32, …<br>string 尽量不要使用strings，除非需要做这种类型数据的输出【因为基本类型是uint256】<br>arrays</p>
+
+<h2 id="3-Contracts"><a href="#3-Contracts" class="headerlink" title="3. Contracts"></a>3. Contracts</h2><p>类似 Class，合约的基本类型</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">contract Name &#123;</span><br><span class="line">	...</span><br><span class="line">	uint foo = 5;</span><br><span class="line">	<span class="function"><span class="title">constructor</span></span>()&#123;</span><br><span class="line">		// 部署时执行一次</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">function</span> name() scope returns(<span class="built_in">type</span>) &#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-简单类型"><a href="#4-简单类型" class="headerlink" title="4. 简单类型"></a>4. 简单类型</h2><p>uint &#x3D; 256bit | uint8, uint16, uint32, …<br>string 尽量不要使用 strings，除非需要做这种类型数据的输出【因为基本类型是 uint256】<br>arrays</p>
 <ul>
 <li>动态数组：全局变量中使用</li>
-<li>静态数组【固定大小】：使用<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">contract Foo &#123;</span><br><span class="line">	uint[] foo; // 动态数组</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">function</span> foofoo() public view &#123;</span><br><span class="line">		uint[] memory fooo = new uint[](10); // 固定大小数组(函数内生命是固定大小的)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-maps</li>
-<li>不能遍历的map<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">contract Foo &#123;</span><br><span class="line">	mapping(uint =&gt; address[]) map;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-structs</li>
-<li>和C语言一样<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">struct Foo &#123;</span><br><span class="line">	uint a;</span><br><span class="line">	uint16 b;</span><br><span class="line">	uint8 c;</span><br><span class="line">&#125;</span><br><span class="line">mapping(uint =&gt; Foo) mymap;</span><br><span class="line">Foo[] myarr;</span><br></pre></td></tr></table></figure></li>
+<li>静态数组【固定大小】：使用</li>
 </ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">contract Foo &#123;</span><br><span class="line">	uint[] foo; // 动态数组</span><br><span class="line"></span><br><span class="line">	<span class="keyword">function</span> foofoo() public view &#123;</span><br><span class="line">		uint[] memory fooo = new uint[](10); // 固定大小数组(函数内生命是固定大小的)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>maps</p>
+<ul>
+<li>不能遍历的 map</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">contract Foo &#123;</span><br><span class="line">	mapping(uint =&gt; address[]) map;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>structs</p>
+<ul>
+<li>和 C 语言一样</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">struct Foo &#123;</span><br><span class="line">	uint a;</span><br><span class="line">	uint16 b;</span><br><span class="line">	uint8 c;</span><br><span class="line">&#125;</span><br><span class="line">mapping(uint =&gt; Foo) mymap;</span><br><span class="line">Foo[] myarr;</span><br></pre></td></tr></table></figure>
+
 <h2 id="5-语言简单，概念复杂"><a href="#5-语言简单，概念复杂" class="headerlink" title="5.语言简单，概念复杂"></a>5.语言简单，概念复杂</h2><ul>
-<li>这个教程可以涵盖到你所有关于ethereum的问题<ul>
+<li>这个教程可以涵盖到你所有关于 ethereum 的问题<ul>
 <li><a target="_blank" rel="noopener" href="https://soliditylang.org/">https://soliditylang.org/</a></li>
 </ul>
 </li>
-<li>边coding边learning</li>
+<li>边 coding 边 learning</li>
 </ul>
 
       
@@ -432,7 +445,7 @@ structs</li>
               
                 <a href="/archives/%20%7C%7C%20archive">
               
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -469,7 +482,7 @@ structs</li>
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-If%E8%AF%AD%E5%8F%A5"><span class="nav-number">1.</span> <span class="nav-text">1. If语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%BE%AA%E7%8E%AF"><span class="nav-number">2.</span> <span class="nav-text">2. 循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Contracts"><span class="nav-number">3.</span> <span class="nav-text">3. Contracts</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E7%AE%80%E5%8D%95%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">4. 简单类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E8%AF%AD%E8%A8%80%E7%AE%80%E5%8D%95%EF%BC%8C%E6%A6%82%E5%BF%B5%E5%A4%8D%E6%9D%82"><span class="nav-number">5.</span> <span class="nav-text">5.语言简单，概念复杂</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-If-%E8%AF%AD%E5%8F%A5"><span class="nav-number">1.</span> <span class="nav-text">1. If 语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%BE%AA%E7%8E%AF"><span class="nav-number">2.</span> <span class="nav-text">2. 循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Contracts"><span class="nav-number">3.</span> <span class="nav-text">3. Contracts</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E7%AE%80%E5%8D%95%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">4. 简单类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E8%AF%AD%E8%A8%80%E7%AE%80%E5%8D%95%EF%BC%8C%E6%A6%82%E5%BF%B5%E5%A4%8D%E6%9D%82"><span class="nav-number">5.</span> <span class="nav-text">5.语言简单，概念复杂</span></a></li></ol></div>
             
 
           </div>
