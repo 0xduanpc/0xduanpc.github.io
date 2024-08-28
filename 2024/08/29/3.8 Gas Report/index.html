@@ -79,17 +79,19 @@
 
 
 
-<meta name="description" content="1. 部署脚本123456789101112131415import &quot;@nomicfoundation&#x2F;hardhat-ethers&quot;;import &#123; ethers &#125; from &quot;hardhat&quot;;async function deploy() &#123;  const HW &#x3D; await ethers.getContractF">
+<meta name="description" content="1. 计算 gas 费 gas reporter yarn add -D hardhat-gas-reporter  添加到 hardhat.config.ts import &quot;hardhat-gas-reporter&quot;   1234567const config: Config &#x3D; &#123;  solidity: &quot;0.8.24&quot;,  ...  gas">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2.3 部署智能合约">
-<meta property="og:url" content="http://example.com/2024/08/26/2.3%20%E9%83%A8%E7%BD%B2%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/index.html">
+<meta property="og:title" content="3.8 Gas Report">
+<meta property="og:url" content="http://example.com/2024/08/29/3.8%20Gas%20Report/index.html">
 <meta property="og:site_name" content="0xduanpc">
-<meta property="og:description" content="1. 部署脚本123456789101112131415import &quot;@nomicfoundation&#x2F;hardhat-ethers&quot;;import &#123; ethers &#125; from &quot;hardhat&quot;;async function deploy() &#123;  const HW &#x3D; await ethers.getContractF">
+<meta property="og:description" content="1. 计算 gas 费 gas reporter yarn add -D hardhat-gas-reporter  添加到 hardhat.config.ts import &quot;hardhat-gas-reporter&quot;   1234567const config: Config &#x3D; &#123;  solidity: &quot;0.8.24&quot;,  ...  gas">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2024-08-26T09:15:18.482Z">
-<meta property="article:modified_time" content="2024-08-28T10:06:21.023Z">
+<meta property="og:image" content="http://example.com/images/test_gas.png">
+<meta property="article:published_time" content="2024-08-28T16:42:55.525Z">
+<meta property="article:modified_time" content="2024-08-28T16:56:33.790Z">
 <meta property="article:author" content="0xduanpc">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/test_gas.png">
 
 
 
@@ -119,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/2024/08/26/2.3 部署智能合约/"/>
+  <link rel="canonical" href="http://example.com/2024/08/29/3.8 Gas Report/"/>
 
 
 
 
 
-  <title>2.3 部署智能合约 | 0xduanpc</title>
+  <title>3.8 Gas Report | 0xduanpc</title>
   
 
 
@@ -232,7 +234,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/08/26/2.3%20%E9%83%A8%E7%BD%B2%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/08/29/3.8%20Gas%20Report/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -249,7 +251,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">2.3 部署智能合约</h1>
+          <h1 class="post-title" itemprop="name headline">3.8 Gas Report</h1>
         
 
         <div class="post-meta">
@@ -261,8 +263,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-08-26T17:15:18+08:00">
-                2024-08-26
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-08-29T00:42:55+08:00">
+                2024-08-29
               </time>
             
 
@@ -299,12 +301,36 @@
       
 
       
-        <h2 id="1-部署脚本"><a href="#1-部署脚本" class="headerlink" title="1. 部署脚本"></a>1. 部署脚本</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;@nomicfoundation/hardhat-ethers&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; ethers &#125; <span class="keyword">from</span> <span class="string">&quot;hardhat&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">deploy</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="variable constant_">HW</span> = <span class="keyword">await</span> ethers.<span class="title function_">getContractFactory</span>(<span class="string">&quot;HelloWorld&quot;</span>);</span><br><span class="line">  <span class="keyword">const</span> hw = <span class="keyword">await</span> <span class="variable constant_">HW</span>.<span class="title function_">deploy</span>();</span><br><span class="line">  <span class="keyword">await</span> hw.<span class="title function_">waitForDeployment</span>();</span><br><span class="line">  <span class="keyword">return</span> hw;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">sayHello</span>(<span class="params"><span class="attr">hello</span>: <span class="built_in">any</span></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="keyword">await</span> hello.<span class="title function_">hello</span>());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">deploy</span>().<span class="title function_">then</span>(sayHello);</span><br></pre></td></tr></table></figure>
+        <h2 id="1-计算-gas-费"><a href="#1-计算-gas-费" class="headerlink" title="1. 计算 gas 费"></a>1. 计算 gas 费</h2><ul>
+<li><p>gas reporter</p>
+<p><code>yarn add -D hardhat-gas-reporter</code></p>
+</li>
+<li><p>添加到 hardhat.config.ts</p>
+<p><code>import &quot;hardhat-gas-reporter&quot;</code></p>
+</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="attr">config</span>: <span class="title class_">Config</span> = &#123;</span><br><span class="line">  <span class="attr">solidity</span>: <span class="string">&quot;0.8.24&quot;</span>,</span><br><span class="line">  ...</span><br><span class="line">  <span class="attr">gasReporter</span>: &#123;</span><br><span class="line">    <span class="attr">enabled</span>: <span class="literal">true</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<h2 id="2-构建本地网络"><a href="#2-构建本地网络" class="headerlink" title="2. 构建本地网络"></a>2. 构建本地网络</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npx hardhat node</span><br></pre></td></tr></table></figure>
+<ul>
+<li>TestGas 合约</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">// SPDX-License-Identifier: MIT</span><br><span class="line">pragma solidity 0.8.24;</span><br><span class="line"></span><br><span class="line">contract TestGas &#123;</span><br><span class="line">    uint a;</span><br><span class="line">    uint b;</span><br><span class="line">    uint c;</span><br><span class="line">    function test1() public &#123;</span><br><span class="line">        a++;</span><br><span class="line">    &#125;</span><br><span class="line">    function test2() public &#123;</span><br><span class="line">        a++;</span><br><span class="line">        b++;</span><br><span class="line">    &#125;</span><br><span class="line">    function test3() public &#123;</span><br><span class="line">        a++;</span><br><span class="line">        b++;</span><br><span class="line">        c++;</span><br><span class="line">    &#125;</span><br><span class="line">    function test4() public &#123;</span><br><span class="line">        c = a + b;</span><br><span class="line">    &#125;</span><br><span class="line">    function test5() public &#123;</span><br><span class="line">        test4();</span><br><span class="line">        b = a + c;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>默认地址 <a target="_blank" rel="noopener" href="http://127.0.0.1:8545/">http://127.0.0.1:8545/</a><br>初始时默认分配 20 个账号，各 10000ETH，每次重启保持一致，默认用第一个账号部署合约</p>
-<h2 id="3-执行部署脚本"><a href="#3-执行部署脚本" class="headerlink" title="3. 执行部署脚本"></a>3. 执行部署脚本</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">$ npx hardhat run ./scripts/deploy-hello.ts --network localhost</span><br><span class="line"></span><br><span class="line"><span class="comment"># eth_accounts</span></span><br><span class="line"><span class="comment"># hardhat_metadata (20)</span></span><br><span class="line"><span class="comment"># eth_blockNumber</span></span><br><span class="line"><span class="comment"># eth_getBlockByNumber</span></span><br><span class="line"><span class="comment"># eth_feeHistory</span></span><br><span class="line"><span class="comment"># eth_maxPriorityFeePerGas</span></span><br><span class="line"><span class="comment"># eth_sendTransaction</span></span><br><span class="line"><span class="comment">#   Contract deployment: HelloWorld</span></span><br><span class="line"><span class="comment">#   Contract address:    0x5fbdb2315678afecb367f032d93f642f64180aa3</span></span><br><span class="line"><span class="comment">#   Transaction:         0x859b54f8981ca57ff5d87238f028577002cd8f3df234034d4f75c1ad061510fc</span></span><br><span class="line"><span class="comment">#   From:                0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266</span></span><br><span class="line"><span class="comment">#   Value:               0 ETH</span></span><br><span class="line"><span class="comment">#   Gas used:            133161 of 30000000</span></span><br><span class="line"><span class="comment">#   Block #1:            0x7d146df7c8d57a0ed59ae161e71abe2532116110389818156f10c94859bb435f</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># eth_getTransactionByHash</span></span><br><span class="line"><span class="comment"># eth_getTransactionReceipt</span></span><br><span class="line"><span class="comment"># eth_blockNumber</span></span><br><span class="line"><span class="comment"># eth_call</span></span><br><span class="line"><span class="comment">#   Contract call:       HelloWorld#hello</span></span><br><span class="line"><span class="comment">#   From:                0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266</span></span><br><span class="line"><span class="comment">#   To:                  0x5fbdb2315678afecb367f032d93f642f64180aa3</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>测试脚本</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;@nomicfoundation/hardhat-ethers&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; ethers &#125; <span class="keyword">from</span> <span class="string">&quot;hardhat&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="title function_">describe</span>(<span class="string">&quot;TestGas&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="title function_">it</span>(<span class="string">&quot;test gas&quot;</span>, <span class="title function_">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="variable constant_">TG</span> = <span class="keyword">await</span> ethers.<span class="title function_">getContractFactory</span>(<span class="string">&quot;TestGas&quot;</span>);</span><br><span class="line">    <span class="keyword">const</span> tg = <span class="keyword">await</span> <span class="variable constant_">TG</span>.<span class="title function_">deploy</span>();</span><br><span class="line">    <span class="keyword">await</span> tg.<span class="title function_">waitForDeployment</span>();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i) &#123;</span><br><span class="line">      <span class="keyword">await</span> tg.<span class="title function_">test1</span>();</span><br><span class="line">      <span class="keyword">await</span> tg.<span class="title function_">test2</span>();</span><br><span class="line">      <span class="keyword">await</span> tg.<span class="title function_">test3</span>();</span><br><span class="line">      <span class="keyword">await</span> tg.<span class="title function_">test4</span>();</span><br><span class="line">      <span class="keyword">await</span> tg.<span class="title function_">test5</span>();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>运行测试<br><code>npx hardhat test</code></li>
+<li>测试结果<br><img src="/images/test_gas.png"></li>
+</ul>
+<h2 id="2-核心要点"><a href="#2-核心要点" class="headerlink" title="2. 核心要点"></a>2. 核心要点</h2><ul>
+<li>所有状态统一提交到矿工，计算之后提交为预提交状态，都计算完之后统一提交到网络上，这个准备工作消耗很多</li>
+<li>每个操作都会有 gas 消耗</li>
+<li>solidity 里的 copy 开销非常大</li>
+<li>所有<code>需要矿工参与</code>的方法需要消耗 gas，包括本合约调用其他合约的 pure、view 方法等，本地调用 pure、view 方法不消耗 gas 是因为计算是在本地进行<em>（待验证）</em></li>
+</ul>
 
       
     </div>
@@ -329,8 +355,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2024/08/26/2.2%20%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83%E8%AF%BB%E5%8F%96%E3%80%81%E9%83%A8%E7%BD%B2%E3%80%81%E6%B5%8B%E8%AF%95%E5%90%88%E7%BA%A6/" rel="next" title="2.2 测试环境读取、部署、测试合约">
-                <i class="fa fa-chevron-left"></i> 2.2 测试环境读取、部署、测试合约
+              <a href="/2024/08/28/3.7%20Gas%E6%A6%82%E8%BF%B0/" rel="next" title="3.7 Gas概述">
+                <i class="fa fa-chevron-left"></i> 3.7 Gas概述
               </a>
             
           </div>
@@ -338,10 +364,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2024/08/26/2.4%20%E5%AE%89%E8%A3%85%E5%B0%8F%E7%8B%90%E7%8B%B8%E9%92%B1%E5%8C%85%EF%BC%88%E8%B0%B7%E6%AD%8C%E6%B5%8F%E8%A7%88%E5%99%A8%EF%BC%89/" rel="prev" title="2.4 安装小狐狸钱包（谷歌浏览器）">
-                2.4 安装小狐狸钱包（谷歌浏览器） <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -455,7 +477,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E9%83%A8%E7%BD%B2%E8%84%9A%E6%9C%AC"><span class="nav-number">1.</span> <span class="nav-text">1. 部署脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%9E%84%E5%BB%BA%E6%9C%AC%E5%9C%B0%E7%BD%91%E7%BB%9C"><span class="nav-number">2.</span> <span class="nav-text">2. 构建本地网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%89%A7%E8%A1%8C%E9%83%A8%E7%BD%B2%E8%84%9A%E6%9C%AC"><span class="nav-number">3.</span> <span class="nav-text">3. 执行部署脚本</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AE%A1%E7%AE%97-gas-%E8%B4%B9"><span class="nav-number">1.</span> <span class="nav-text">1. 计算 gas 费</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%A0%B8%E5%BF%83%E8%A6%81%E7%82%B9"><span class="nav-number">2.</span> <span class="nav-text">2. 核心要点</span></a></li></ol></div>
             
 
           </div>
