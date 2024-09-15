@@ -79,15 +79,11 @@
 
 
 
-<meta name="description" content="1. 安装依赖123$ yarn add -D ts-node typescript$ yarn add -D @types&#x2F;mocha$ yarn add -D @nomiclabs&#x2F;hardhat-ethers  2. 测试脚本hardhat.config.js 改为 hardhat.config.ts添加空 json 文件 tsconfig.json 12345678910111213141">
-<meta property="og:type" content="article">
-<meta property="og:title" content="2.2 测试环境读取、部署、测试合约">
-<meta property="og:url" content="http://example.com/2024/08/26/2.2%20%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83%E8%AF%BB%E5%8F%96%E3%80%81%E9%83%A8%E7%BD%B2%E3%80%81%E6%B5%8B%E8%AF%95%E5%90%88%E7%BA%A6/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="0xduanpc">
+<meta property="og:url" content="http://example.com/page/3/index.html">
 <meta property="og:site_name" content="0xduanpc">
-<meta property="og:description" content="1. 安装依赖123$ yarn add -D ts-node typescript$ yarn add -D @types&#x2F;mocha$ yarn add -D @nomiclabs&#x2F;hardhat-ethers  2. 测试脚本hardhat.config.js 改为 hardhat.config.ts添加空 json 文件 tsconfig.json 12345678910111213141">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2024-08-26T08:45:40.100Z">
-<meta property="article:modified_time" content="2024-08-28T10:06:18.622Z">
 <meta property="article:author" content="0xduanpc">
 <meta name="twitter:card" content="summary">
 
@@ -119,13 +115,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/2024/08/26/2.2 测试环境读取、部署、测试合约/"/>
+  <link rel="canonical" href="http://example.com/page/3/"/>
 
 
 
 
 
-  <title>2.2 测试环境读取、部署、测试合约 | 0xduanpc</title>
+  <title>0xduanpc</title>
   
 
 
@@ -144,7 +140,8 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left 
+  page-home">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -217,9 +214,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
 
@@ -232,7 +229,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/08/26/2.2%20%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83%E8%AF%BB%E5%8F%96%E3%80%81%E9%83%A8%E7%BD%B2%E3%80%81%E6%B5%8B%E8%AF%95%E5%90%88%E7%BA%A6/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/08/25/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -249,7 +246,9 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">2.2 测试环境读取、部署、测试合约</h1>
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/08/25/hello-world/" itemprop="url">Hello World</a></h1>
         
 
         <div class="post-meta">
@@ -261,8 +260,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-08-26T16:45:40+08:00">
-                2024-08-26
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-08-25T15:49:43+08:00">
+                2024-08-25
               </time>
             
 
@@ -299,13 +298,22 @@
       
 
       
-        <h2 id="1-安装依赖"><a href="#1-安装依赖" class="headerlink" title="1. 安装依赖"></a>1. 安装依赖</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ yarn add -D ts-node typescript</span><br><span class="line">$ yarn add -D @types/mocha</span><br><span class="line">$ yarn add -D @nomiclabs/hardhat-ethers</span><br></pre></td></tr></table></figure>
+        
+          
+          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Quick StartCreate a new post1$ hexo new &quot;My New Post&quot;
 
-<h2 id="2-测试脚本"><a href="#2-测试脚本" class="headerlink" title="2. 测试脚本"></a>2. 测试脚本</h2><p>hardhat.config.js 改为 hardhat.config.ts<br>添加空 json 文件 tsconfig.json</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;@nomiclabs/hardhat-ethers&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; ethers &#125; <span class="keyword">from</span> <span class="string">&quot;hardhat&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; expect &#125; <span class="keyword">from</span> <span class="string">&quot;chai&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="title function_">describe</span>(<span class="string">&quot;Hello World&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="title function_">it</span>(<span class="string">&quot;should say hello world&quot;</span>, <span class="title function_">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="comment">// 1. setup</span></span><br><span class="line">    <span class="comment">// 2. import contract</span></span><br><span class="line">    <span class="comment">// 3. test action</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="variable constant_">HW</span> = <span class="keyword">await</span> ethers.<span class="title function_">getContractFactory</span>(<span class="string">&quot;HelloWorld&quot;</span>);</span><br><span class="line">    <span class="keyword">const</span> hello = <span class="keyword">await</span> <span class="variable constant_">HW</span>.<span class="title function_">deploy</span>();</span><br><span class="line"></span><br><span class="line">    <span class="title function_">expect</span>(<span class="keyword">await</span> hello.<span class="title function_">hello</span>()).<span class="property">to</span>.<span class="title function_">equal</span>(<span class="string">&quot;Hello, World&quot;</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-执行测试"><a href="#3-执行测试" class="headerlink" title="3. 执行测试"></a>3. 执行测试</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ npx hardhat <span class="built_in">test</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Compiled 1 Solidity file successfully (evm target: paris).</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Hello World</span></span><br><span class="line"><span class="comment"># ✔ should get the hello world (283ms)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1 passing (283ms)</span></span><br></pre></td></tr></table></figure>
-
+More info: Writing
+Run server1$ hexo ser
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2024/08/25/hello-world/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
       
     </div>
     
@@ -322,32 +330,12 @@
       
 
       
-      
+
       
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2024/08/25/2.1%20Solidity%20%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%90%88%E7%BA%A6/" rel="next" title="2.1 Solidity 第一个合约">
-                <i class="fa fa-chevron-left"></i> 2.1 Solidity 第一个合约
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2024/08/26/2.3%20%E9%83%A8%E7%BD%B2%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6/" rel="prev" title="2.3 部署智能合约">
-                2.3 部署智能合约 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
       
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -357,11 +345,14 @@
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/2/">&lt;i class&#x3D;&quot;fa fa-angle-left&quot;&gt;&lt;&#x2F;i&gt;</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
+
 
 
           </div>
@@ -369,10 +360,6 @@
 
 
           
-
-  
-
-
 
         </div>
         
@@ -393,17 +380,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -445,22 +423,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="nav-number">1.</span> <span class="nav-text">1. 安装依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%B5%8B%E8%AF%95%E8%84%9A%E6%9C%AC"><span class="nav-number">2.</span> <span class="nav-text">2. 测试脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%89%A7%E8%A1%8C%E6%B5%8B%E8%AF%95"><span class="nav-number">3.</span> <span class="nav-text">3. 执行测试</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -594,10 +556,6 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
 
   
 
