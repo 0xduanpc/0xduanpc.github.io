@@ -229,6 +229,277 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/17/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A4.%20%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xduanpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/09/17/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A4.%20%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/" itemprop="url">Rust基础：4. 流程控制</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-09-17T03:21:11+08:00">
+                2024-09-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          1. 条件控制必须显式地使用 bool 值作为 if 的条件
+123456789101112fn main() &#123;    let number = 3;    if number % 4 == 0 &#123;        println!(&quot;number is divisible by 4&quot;);    &#125; else if number % 3 == 0 &#123;        println!(&quot;number is divisible by 3&quot;);    &#125; else if number % 2 == 0 &#12
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2024/09/17/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A4.%20%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/17/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A3.%20%E5%87%BD%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xduanpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/09/17/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A3.%20%E5%87%BD%E6%95%B0/" itemprop="url">Rust基础：3. 函数</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-09-17T02:40:35+08:00">
+                2024-09-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          1. 函数组成
+声明函数关键字 fn
+参数名 add()
+参数 i 和 j 的参数类型 i32
+返回值类型 i32
+函数体 i + j
+
+123fn add(i: i32, j: i32) -&gt; i32 &#123;    i + j;&#125;
+
+rust 不关心调用前还是调用后声明的函数
+2. 函数名
+开头是字母或下划线，后面是数字、下划线、字母
+不能仅有下划线
+函数名和变量名使用蛇形命名法
+
+3. 函数返回
+return+分号，或没有 return+没有分号
+
+123456fn add(i: i32, j: i32) -&gt; i32 &#123;    i + j;&#125
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2024/09/17/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A3.%20%E5%87%BD%E6%95%B0/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/15/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A2.%20%E5%8F%98%E9%87%8F%E5%92%8C%E5%8F%AF%E5%8F%98%E7%B1%BB%E5%9E%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1282,266 +1553,6 @@ ether &#x3D; 10^18wei
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/08/28/3.6%20Alchemy%E6%B5%8B%E8%AF%95%E7%BD%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xduanpc">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2024/08/28/3.6%20Alchemy%E6%B5%8B%E8%AF%95%E7%BD%91/" itemprop="url">3.6 Alchemy测试网</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-08-28T17:55:11+08:00">
-                2024-08-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          1. 测试网水龙头https://www.alchemy.com/faucets/ethereum-sepolia
-2. 获取测试网 api_keyhttps://dashboard.alchemy.com/app-选择 app-Networks-Ethereum 切换到 Sopolia-copy
-3. deploy-counter.ts 中记录合约地址1console.log(&quot;counter address is&quot;, await counter.getAddress());
-
-4. .evn 中添加环境变量123CONTRACT_ADDRESS=xxxALCHEMY_A
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2024/08/28/3.6%20Alchemy%E6%B5%8B%E8%AF%95%E7%BD%91/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/08/28/3.5%20%E5%90%88%E7%BA%A6%E4%BA%8B%E4%BB%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xduanpc">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2024/08/28/3.5%20%E5%90%88%E7%BA%A6%E4%BA%8B%E4%BB%B6/" itemprop="url">3.5 合约事件</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-08-28T16:41:38+08:00">
-                2024-08-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          1. 添加合约事件1234567event CounterInc(uint counter);function count() public &#123;    counter++;    console.log(&quot;Now, counter is:&quot;, counter);    emit CounterInc(counter);&#125;
-
-2. 前端修改1import &#123; abi &#125; from &quot;../artifacts/contracts/Counter.sol/Counter.json&quot;;
-
-1const contract =
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2024/08/28/3.5%20%E5%90%88%E7%BA%A6%E4%BA%8B%E4%BB%B6/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1592,7 +1603,7 @@ ether &#x3D; 10^18wei
               
                 <a href="/archives/%20%7C%7C%20archive">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

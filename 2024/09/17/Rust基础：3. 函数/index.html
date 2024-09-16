@@ -79,19 +79,17 @@
 
 
 
-<meta name="description" content="1. 计算 gas 费 gas reporter yarn add -D hardhat-gas-reporter  添加到 hardhat.config.ts import &quot;hardhat-gas-reporter&quot;;   1234567const config: Config &#x3D; &#123;  solidity: &quot;0.8.24&quot;,  ...  ga">
+<meta name="description" content="1. 函数组成 声明函数关键字 fn 参数名 add() 参数 i 和 j 的参数类型 i32 返回值类型 i32 函数体 i + j  123fn add(i: i32, j: i32) -&gt; i32 &#123;    i + j;&#125;  rust 不关心调用前还是调用后声明的函数 2. 函数名 开头是字母或下划线，后面是数字、下划线、字母 不能仅有下划线 函数名和变量名使用蛇形">
 <meta property="og:type" content="article">
-<meta property="og:title" content="3.8 Gas Report">
-<meta property="og:url" content="http://example.com/2024/08/29/3.8%20Gas%20Report/index.html">
+<meta property="og:title" content="Rust基础：3. 函数">
+<meta property="og:url" content="http://example.com/2024/09/17/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A3.%20%E5%87%BD%E6%95%B0/index.html">
 <meta property="og:site_name" content="0xduanpc">
-<meta property="og:description" content="1. 计算 gas 费 gas reporter yarn add -D hardhat-gas-reporter  添加到 hardhat.config.ts import &quot;hardhat-gas-reporter&quot;;   1234567const config: Config &#x3D; &#123;  solidity: &quot;0.8.24&quot;,  ...  ga">
+<meta property="og:description" content="1. 函数组成 声明函数关键字 fn 参数名 add() 参数 i 和 j 的参数类型 i32 返回值类型 i32 函数体 i + j  123fn add(i: i32, j: i32) -&gt; i32 &#123;    i + j;&#125;  rust 不关心调用前还是调用后声明的函数 2. 函数名 开头是字母或下划线，后面是数字、下划线、字母 不能仅有下划线 函数名和变量名使用蛇形">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/images/test_gas.png">
-<meta property="article:published_time" content="2024-08-28T16:42:55.525Z">
-<meta property="article:modified_time" content="2024-09-05T19:19:42.388Z">
+<meta property="article:published_time" content="2024-09-16T18:40:35.385Z">
+<meta property="article:modified_time" content="2024-09-16T19:25:22.543Z">
 <meta property="article:author" content="0xduanpc">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/test_gas.png">
 
 
 
@@ -121,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/2024/08/29/3.8 Gas Report/"/>
+  <link rel="canonical" href="http://example.com/2024/09/17/Rust基础：3. 函数/"/>
 
 
 
 
 
-  <title>3.8 Gas Report | 0xduanpc</title>
+  <title>Rust基础：3. 函数 | 0xduanpc</title>
   
 
 
@@ -234,7 +232,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/08/29/3.8%20Gas%20Report/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/17/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A3.%20%E5%87%BD%E6%95%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -251,7 +249,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">3.8 Gas Report</h1>
+          <h1 class="post-title" itemprop="name headline">Rust基础：3. 函数</h1>
         
 
         <div class="post-meta">
@@ -263,8 +261,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-08-29T00:42:55+08:00">
-                2024-08-29
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-09-17T02:40:35+08:00">
+                2024-09-17
               </time>
             
 
@@ -301,36 +299,35 @@
       
 
       
-        <h2 id="1-计算-gas-费"><a href="#1-计算-gas-费" class="headerlink" title="1. 计算 gas 费"></a>1. 计算 gas 费</h2><ul>
-<li><p>gas reporter</p>
-<p><code>yarn add -D hardhat-gas-reporter</code></p>
-</li>
-<li><p>添加到 hardhat.config.ts</p>
-<p><code>import &quot;hardhat-gas-reporter&quot;;</code></p>
-</li>
+        <h1 id="1-函数组成"><a href="#1-函数组成" class="headerlink" title="1. 函数组成"></a>1. 函数组成</h1><ul>
+<li>声明函数关键字 <code>fn</code></li>
+<li>参数名 <code>add()</code></li>
+<li>参数 <code>i</code> 和 <code>j</code> 的参数类型 <code>i32</code></li>
+<li>返回值类型 <code>i32</code></li>
+<li>函数体 <code>i + j</code></li>
 </ul>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="attr">config</span>: <span class="title class_">Config</span> = &#123;</span><br><span class="line">  <span class="attr">solidity</span>: <span class="string">&quot;0.8.24&quot;</span>,</span><br><span class="line">  ...</span><br><span class="line">  <span class="attr">gasReporter</span>: &#123;</span><br><span class="line">    <span class="attr">enabled</span>: <span class="literal">true</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">add</span>(i: <span class="type">i32</span>, j: <span class="type">i32</span>) <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;</span><br><span class="line">    i + j;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>rust 不关心调用前还是调用后声明的函数</p>
+<h1 id="2-函数名"><a href="#2-函数名" class="headerlink" title="2. 函数名"></a>2. 函数名</h1><ul>
+<li>开头是字母或下划线，后面是数字、下划线、字母</li>
+<li>不能仅有下划线</li>
+<li>函数名和变量名使用蛇形命名法</li>
+</ul>
+<h1 id="3-函数返回"><a href="#3-函数返回" class="headerlink" title="3. 函数返回"></a>3. 函数返回</h1><ul>
+<li>return+分号，或没有 return+没有分号</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">add</span>(i: <span class="type">i32</span>, j: <span class="type">i32</span>) <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;</span><br><span class="line">    i + j;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">add</span>(i: <span class="type">i32</span>, j: <span class="type">i32</span>) <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> i + j;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>TestGas 合约</li>
+<li>无返回值：不写返回类型，或返回()</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">// SPDX-License-Identifier: MIT</span><br><span class="line">pragma solidity 0.8.24;</span><br><span class="line"></span><br><span class="line">contract TestGas &#123;</span><br><span class="line">    uint a;</span><br><span class="line">    uint b;</span><br><span class="line">    uint c;</span><br><span class="line">    function test1() public &#123;</span><br><span class="line">        a++;</span><br><span class="line">    &#125;</span><br><span class="line">    function test2() public &#123;</span><br><span class="line">        a++;</span><br><span class="line">        b++;</span><br><span class="line">    &#125;</span><br><span class="line">    function test3() public &#123;</span><br><span class="line">        a++;</span><br><span class="line">        b++;</span><br><span class="line">        c++;</span><br><span class="line">    &#125;</span><br><span class="line">    function test4() public &#123;</span><br><span class="line">        c = a + b;</span><br><span class="line">    &#125;</span><br><span class="line">    function test5() public &#123;</span><br><span class="line">        test4();</span><br><span class="line">        b = a + c;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">print</span>(i: <span class="type">i32</span>) &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">print</span>(i: <span class="type">i32</span>) <span class="punctuation">-&gt;</span> () &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>测试脚本</li>
+<li>函数永不返回，用!作为返回类型</li>
 </ul>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;@nomicfoundation/hardhat-ethers&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; ethers &#125; <span class="keyword">from</span> <span class="string">&quot;hardhat&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="title function_">describe</span>(<span class="string">&quot;TestGas&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="title function_">it</span>(<span class="string">&quot;test gas&quot;</span>, <span class="title function_">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="variable constant_">TG</span> = <span class="keyword">await</span> ethers.<span class="title function_">getContractFactory</span>(<span class="string">&quot;TestGas&quot;</span>);</span><br><span class="line">    <span class="keyword">const</span> tg = <span class="keyword">await</span> <span class="variable constant_">TG</span>.<span class="title function_">deploy</span>();</span><br><span class="line">    <span class="keyword">await</span> tg.<span class="title function_">waitForDeployment</span>();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i) &#123;</span><br><span class="line">      <span class="keyword">await</span> tg.<span class="title function_">test1</span>();</span><br><span class="line">      <span class="keyword">await</span> tg.<span class="title function_">test2</span>();</span><br><span class="line">      <span class="keyword">await</span> tg.<span class="title function_">test3</span>();</span><br><span class="line">      <span class="keyword">await</span> tg.<span class="title function_">test4</span>();</span><br><span class="line">      <span class="keyword">await</span> tg.<span class="title function_">test5</span>();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>运行测试<br><code>npx hardhat test</code></li>
-<li>测试结果<br><img src="/images/test_gas.png"></li>
-</ul>
-<h2 id="2-核心要点"><a href="#2-核心要点" class="headerlink" title="2. 核心要点"></a>2. 核心要点</h2><ul>
-<li>所有状态统一提交到矿工，计算之后提交为预提交状态，都计算完之后统一提交到网络上，这个准备工作消耗很多</li>
-<li>每个操作都会有 gas 消耗</li>
-<li>solidity 里的 copy 开销非常大</li>
-<li>所有<code>需要矿工参与</code>的方法需要消耗 gas，包括本合约调用其他合约的 pure、view 方法等，本地调用 pure、view 方法不消耗 gas 是因为计算是在本地进行<em>（待验证）</em></li>
-</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">dead_end</span>() <span class="punctuation">-&gt;</span> ! &#123;</span><br><span class="line">    <span class="built_in">panic!</span>(<span class="string">&quot;This call never returns!&quot;</span>); <span class="comment">// panic!()，往往用做会导致程序崩溃的函数</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">forever</span>() <span class="punctuation">-&gt;</span> ! &#123;</span><br><span class="line">    <span class="keyword">loop</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;I&#x27;ll never stop!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">todo</span>() <span class="punctuation">-&gt;</span> ! &#123;</span><br><span class="line">    todo!();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -355,8 +352,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2024/08/28/3.7%20Gas%E6%A6%82%E8%BF%B0/" rel="next" title="3.7 Gas概述">
-                <i class="fa fa-chevron-left"></i> 3.7 Gas概述
+              <a href="/2024/09/15/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A2.%20%E5%8F%98%E9%87%8F%E5%92%8C%E5%8F%AF%E5%8F%98%E7%B1%BB%E5%9E%8B/" rel="next" title="Rust基础：2. 变量和可变类型">
+                <i class="fa fa-chevron-left"></i> Rust基础：2. 变量和可变类型
               </a>
             
           </div>
@@ -365,8 +362,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2024/08/30/4.%20Hero%20Game/" rel="prev" title="4. Hero Game">
-                4. Hero Game <i class="fa fa-chevron-right"></i>
+              <a href="/2024/09/17/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A4.%20%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/" rel="prev" title="Rust基础：4. 流程控制">
+                Rust基础：4. 流程控制 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -481,7 +478,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AE%A1%E7%AE%97-gas-%E8%B4%B9"><span class="nav-number">1.</span> <span class="nav-text">1. 计算 gas 费</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%A0%B8%E5%BF%83%E8%A6%81%E7%82%B9"><span class="nav-number">2.</span> <span class="nav-text">2. 核心要点</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%87%BD%E6%95%B0%E7%BB%84%E6%88%90"><span class="nav-number">1.</span> <span class="nav-text">1. 函数组成</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%87%BD%E6%95%B0%E5%90%8D"><span class="nav-number">2.</span> <span class="nav-text">2. 函数名</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E"><span class="nav-number">3.</span> <span class="nav-text">3. 函数返回</span></a></li></ol></div>
             
 
           </div>
