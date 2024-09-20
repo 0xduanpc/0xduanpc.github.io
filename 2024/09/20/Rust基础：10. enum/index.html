@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1. 语法&amp;规范 enum 名称和内部 unit 命名遵从 PascalCase（首字母大写） impl 的 method 遵从 snake_case（小写）  12345678910111213141516171819202122232425262728293031fn main() &#123;    &#x2F;&#x2F; 智能补全debug特性    #[derive(Debug)]    enum">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rust基础：10. enum">
+<meta property="og:url" content="http://example.com/2024/09/20/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A10.%20enum/index.html">
+<meta property="og:site_name" content="0xduanpc">
+<meta property="og:description" content="1. 语法&amp;规范 enum 名称和内部 unit 命名遵从 PascalCase（首字母大写） impl 的 method 遵从 snake_case（小写）  12345678910111213141516171819202122232425262728293031fn main() &#123;    &#x2F;&#x2F; 智能补全debug特性    #[derive(Debug)]    enum">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-09-20T15:55:50.515Z">
+<meta property="article:modified_time" content="2024-09-20T18:56:50.375Z">
+<meta property="article:author" content="0xduanpc">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2024/09/20/Rust基础：10. enum/"/>
+
+
+
+
+
+  <title>Rust基础：10. enum | 0xduanpc</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">0xduanpc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">personal crypto notes</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/20/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A10.%20enum/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xduanpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Rust基础：10. enum</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-09-20T23:55:50+08:00">
+                2024-09-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-语法-规范"><a href="#1-语法-规范" class="headerlink" title="1. 语法&amp;规范"></a>1. 语法&amp;规范</h1><ul>
+<li>enum 名称和内部 unit 命名遵从 PascalCase（首字母大写）</li>
+<li>impl 的 method 遵从 snake_case（小写）</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 智能补全debug特性</span></span><br><span class="line">    <span class="meta">#[derive(Debug)]</span></span><br><span class="line">    <span class="keyword">enum</span> <span class="title class_">Pets</span> &#123;</span><br><span class="line">        <span class="title function_ invoke__">Cat</span>(<span class="type">String</span>),</span><br><span class="line">        Dog &#123; name: <span class="type">String</span>, age: <span class="type">usize</span> &#125;,</span><br><span class="line">        Bird, <span class="comment">// unit type</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">cat</span> = Pets::Cat;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">dog</span> = Pets::Dog &#123;</span><br><span class="line">        name: <span class="string">&quot;Fido&quot;</span>.<span class="title function_ invoke__">to_string</span>(),</span><br><span class="line">        age: <span class="number">3</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, dog);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">impl</span> <span class="title class_">Pets</span> &#123;</span><br><span class="line">        <span class="comment">// method</span></span><br><span class="line">        <span class="keyword">fn</span> <span class="title function_">speak</span>(&amp;<span class="keyword">self</span>) &#123;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;hi&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    dog.<span class="title function_ invoke__">speak</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 关联函数</span></span><br><span class="line">    <span class="keyword">impl</span> <span class="title class_">Pets</span> &#123;</span><br><span class="line">        <span class="keyword">fn</span> <span class="title function_">log</span>(name: <span class="type">String</span>) &#123;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;name is &#123;&#125;&quot;</span>, name);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    Pets::<span class="title function_ invoke__">log</span>(<span class="string">&quot;alen&quot;</span>.<span class="title function_ invoke__">to_string</span>());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-用法"><a href="#2-用法" class="headerlink" title="2. 用法"></a>2. 用法</h1><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="meta">#[derive(PartialEq)]</span></span><br><span class="line">    <span class="keyword">enum</span> <span class="title class_">Pets</span> &#123;</span><br><span class="line">        Cat,</span><br><span class="line">        Dog,</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">cat</span> = Pets::Cat;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">dog</span> = Pets::Dog;</span><br><span class="line">    <span class="comment">// 实现了PartialEq方法才能判断等于</span></span><br><span class="line">    <span class="keyword">if</span> cat == dog &#123;</span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 也可以用match，但要匹配所有条件</span></span><br><span class="line">    <span class="keyword">match</span> cat &#123;</span><br><span class="line">        Pets::Cat =&gt; &#123;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;is cat&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 通配匹配</span></span><br><span class="line">        _ =&gt; &#123;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;is dog&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 也可以用if let</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">cat</span> = Pets::Cat &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;is cat&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-Option"><a href="#3-Option" class="headerlink" title="3. Option"></a>3. Option</h1><ul>
+<li>Some<T></li>
+<li>None</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::collections::HashMap;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">num</span> = <span class="title function_ invoke__">Some</span>(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">none</span>: <span class="type">Option</span>&lt;<span class="type">usize</span>&gt; = <span class="literal">None</span>; <span class="comment">// Option&lt;T&gt;</span></span><br><span class="line">    <span class="keyword">match</span> num &#123;</span><br><span class="line">        <span class="title function_ invoke__">Some</span>(val) =&gt; &#123;&#125;</span><br><span class="line">        <span class="literal">None</span> =&gt; &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">map</span>: HashMap&lt;&amp;<span class="type">str</span>, <span class="type">usize</span>&gt; = HashMap::<span class="title function_ invoke__">new</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = map.<span class="title function_ invoke__">get</span>(<span class="string">&quot;a&quot;</span>);</span><br><span class="line">    <span class="keyword">match</span> a &#123;</span><br><span class="line">        <span class="title function_ invoke__">Some</span>(val) =&gt; &#123;&#125;</span><br><span class="line">        <span class="literal">None</span> =&gt; &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">vec</span> = <span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">last_one</span> = vec.<span class="title function_ invoke__">iter</span>().<span class="title function_ invoke__">last</span>();</span><br><span class="line">    <span class="keyword">match</span> last_one &#123;</span><br><span class="line">        <span class="title function_ invoke__">Some</span>(val) =&gt; &#123;&#125;</span><br><span class="line">        <span class="literal">None</span> =&gt; &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="4-Result"><a href="#4-Result" class="headerlink" title="4. Result"></a>4. Result</h1><ul>
+<li>Ok<T></li>
+<li>Err<E></li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::&#123;fs::File, net::TcpStream, num::ParseIntError&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;(), ()&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">num</span>: <span class="type">Result</span>&lt;<span class="type">i32</span>, ()&gt; = <span class="title function_ invoke__">Ok</span>(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">match</span> num &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(val) =&gt; &#123;&#125;</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(_) =&gt; &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">len</span>: <span class="type">Result</span>&lt;<span class="type">usize</span>, ParseIntError&gt; = <span class="string">&quot;24&quot;</span>.<span class="title function_ invoke__">parse</span>();</span><br><span class="line">    <span class="keyword">match</span> len &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(val) =&gt; &#123;&#125;</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(_) =&gt; &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">file</span> = File::<span class="title function_ invoke__">open</span>(<span class="string">&quot;a.txt&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">tcp_connect</span> = TcpStream::<span class="title function_ invoke__">connect</span>(<span class="string">&quot;127.0.0.1:8080&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Ok(())</span></span><br><span class="line">    <span class="title function_ invoke__">Err</span>(())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="5-Option-Result-转换"><a href="#5-Option-Result-转换" class="headerlink" title="5. Option &amp; Result 转换"></a>5. Option &amp; Result 转换</h1><p>Option 转 Result</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">opt</span>: <span class="type">Option</span>&lt;<span class="type">i32</span>&gt; = <span class="title function_ invoke__">Some</span>(<span class="number">42</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result</span>: <span class="type">Result</span>&lt;<span class="type">i32</span>, &amp;<span class="type">str</span>&gt; = opt.<span class="title function_ invoke__">ok_or</span>(<span class="string">&quot;error&quot;</span>);</span><br><span class="line">    <span class="built_in">assert_eq!</span>(result, <span class="title function_ invoke__">Ok</span>(<span class="number">42</span>));</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">none</span>: <span class="type">Option</span>&lt;<span class="type">i32</span>&gt; = <span class="literal">None</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result</span>: <span class="type">Result</span>&lt;<span class="type">i32</span>, &amp;<span class="type">str</span>&gt; = none.<span class="title function_ invoke__">ok_or</span>(<span class="string">&quot;error&quot;</span>);</span><br><span class="line">    <span class="built_in">assert_eq!</span>(result, <span class="title function_ invoke__">Err</span>(<span class="string">&quot;error&quot;</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Result 转 Option</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">res</span>: <span class="type">Result</span>&lt;<span class="type">i32</span>, &amp;<span class="type">str</span>&gt; = <span class="title function_ invoke__">Ok</span>(<span class="number">24</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">option</span> = res.<span class="title function_ invoke__">ok</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">res</span>: <span class="type">Result</span>&lt;<span class="type">i32</span>, &amp;<span class="type">str</span>&gt; = <span class="title function_ invoke__">Err</span>(<span class="string">&quot;error&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">option</span> = res.<span class="title function_ invoke__">ok</span>();</span><br><span class="line">    <span class="built_in">assert_eq!</span>(option, <span class="literal">None</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="6-常用操作"><a href="#6-常用操作" class="headerlink" title="6. 常用操作"></a>6. 常用操作</h1><p>Option</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">option</span> = <span class="title function_ invoke__">Some</span>(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">b</span> = option.<span class="title function_ invoke__">map</span>(|num| num + <span class="number">1</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, b);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = option.<span class="title function_ invoke__">unwrap</span>(); <span class="comment">// 如果是None，会panic</span></span><br><span class="line">    dbg!(a);</span><br><span class="line">    <span class="comment">// 和unwrap差不多，但会给出一个错误提示的字符串</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = option.<span class="title function_ invoke__">expect</span>(<span class="string">&quot;msg&quot;</span>);</span><br><span class="line">    dbg!(a);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// and_then需要返回Option类型</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">c</span> = option.<span class="title function_ invoke__">and_then</span>(|val| <span class="title function_ invoke__">Some</span>(val + <span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// or_else如果是None，则返回1</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">d</span> = option.<span class="title function_ invoke__">or_else</span>(|| <span class="title function_ invoke__">Some</span>(<span class="number">1</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Result</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result</span>: <span class="type">Result</span>&lt;<span class="type">i32</span>, ()&gt; = <span class="title function_ invoke__">Ok</span>(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">b</span> = result.<span class="title function_ invoke__">map</span>(|num| num + <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// and_then需要返回Result类型</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">c</span> = result.<span class="title function_ invoke__">and_then</span>(|val| <span class="title function_ invoke__">Ok</span>(val + <span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">// or_else如果是Err，则返回一个Result类型</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">d</span>: <span class="type">Result</span>&lt;<span class="type">i32</span>, ()&gt; = result.<span class="title function_ invoke__">or_else</span>(|_| <span class="title function_ invoke__">Ok</span>(<span class="number">1</span>));</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">d</span>: <span class="type">Result</span>&lt;<span class="type">i32</span>, <span class="type">i32</span>&gt; = result.<span class="title function_ invoke__">or_else</span>(|_| <span class="title function_ invoke__">Err</span>(<span class="number">3</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="7-内存占用"><a href="#7-内存占用" class="headerlink" title="7. 内存占用"></a>7. 内存占用</h1><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::mem;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">enum</span> <span class="title class_">A</span> &#123;</span><br><span class="line">        a, <span class="comment">// 0</span></span><br><span class="line">        b, <span class="comment">// 1</span></span><br><span class="line">        c, <span class="comment">// 2</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 最大的变体size</span></span><br><span class="line">    <span class="comment">// 根据判别式，占1个字节</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;size &#123;&#125;&quot;</span>, mem::size_of::&lt;A&gt;());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="8-课后习题"><a href="#8-课后习题" class="headerlink" title="8. 课后习题"></a>8. 课后习题</h1><p>分析 enum 所占内存大小，并打印出来</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::mem;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">enum</span> <span class="title class_">MyEnum</span> &#123;</span><br><span class="line">        <span class="title function_ invoke__">A</span>(<span class="type">u8</span>, <span class="type">u8</span>),</span><br><span class="line">        B,</span><br><span class="line">        C &#123;&#125;,</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 变体数据大小占2字节，加上判别式大小1字节，共3字节</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;size &#123;&#125;&quot;</span>, mem::size_of::&lt;MyEnum&gt;());</span><br><span class="line">    <span class="keyword">enum</span> <span class="title class_">EnumA</span> &#123;</span><br><span class="line">        A = <span class="number">255</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 只有一个变体，编译器优化后不需要分配内存</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;size &#123;&#125;&quot;</span>, mem::size_of::&lt;EnumA&gt;());</span><br><span class="line">    <span class="keyword">enum</span> <span class="title class_">EnumB</span> &#123;</span><br><span class="line">        A = <span class="number">255</span>,</span><br><span class="line">        B,</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// A判别式为255，B的判别式自动累增为256，需要2字节</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;size &#123;&#125;&quot;</span>, mem::size_of::&lt;EnumB&gt;());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/09/20/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A9.%20%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="next" title="Rust基础：9. 字符串">
+                <i class="fa fa-chevron-left"></i> Rust基础：9. 字符串
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E8%AF%AD%E6%B3%95-%E8%A7%84%E8%8C%83"><span class="nav-number">1.</span> <span class="nav-text">1. 语法&amp;规范</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E7%94%A8%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">2. 用法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Option"><span class="nav-number">3.</span> <span class="nav-text">3. Option</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-Result"><span class="nav-number">4.</span> <span class="nav-text">4. Result</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-Option-Result-%E8%BD%AC%E6%8D%A2"><span class="nav-number">5.</span> <span class="nav-text">5. Option &amp; Result 转换</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C"><span class="nav-number">6.</span> <span class="nav-text">6. 常用操作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-%E5%86%85%E5%AD%98%E5%8D%A0%E7%94%A8"><span class="nav-number">7.</span> <span class="nav-text">7. 内存占用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-%E8%AF%BE%E5%90%8E%E4%B9%A0%E9%A2%98"><span class="nav-number">8.</span> <span class="nav-text">8. 课后习题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">0xduanpc</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
