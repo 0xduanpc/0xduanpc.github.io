@@ -229,6 +229,137 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/25/Rust%E8%BF%9B%E9%98%B6%EF%BC%9A2.%E6%B3%9B%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xduanpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/09/25/Rust%E8%BF%9B%E9%98%B6%EF%BC%9A2.%E6%B3%9B%E5%9E%8B/" itemprop="url">Rust进阶：2.泛型</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-09-25T18:46:41+08:00">
+                2024-09-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          1. 在函数定义中使用泛型123fn add&lt;T: std::ops::Add&lt;Output = T&gt;&gt;(a: T, b: T) -&gt; T &#123;    a + b&#125;
+
+或
+123fn add&lt;T&gt;(a: T, b: T) -&gt; T where T: std::ops::Add&lt;Output=T&gt; &#123;    a + b&#125;
+
+123456789fn largest&lt;T: std::cmp::PartialOrd&gt;(list: &amp;[T]) -&gt; &amp;T &#123;   
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2024/09/25/Rust%E8%BF%9B%E9%98%B6%EF%BC%9A2.%E6%B3%9B%E5%9E%8B/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/24/Rust%E8%BF%9B%E9%98%B6%EF%BC%9A1.%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E6%A6%82%E8%BF%B0&box%E6%8C%87%E9%92%88/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1398,133 +1529,6 @@ let s: &amp;str = &quot;hello world&quot;;&amp;str是一种不可变引用，没
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/19/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A8.%E6%95%B0%E7%BB%84%E4%B8%8E%E5%88%87%E7%89%87/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xduanpc">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2024/09/19/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A8.%E6%95%B0%E7%BB%84%E4%B8%8E%E5%88%87%E7%89%87/" itemprop="url">Rust基础：8.数组与切片</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-09-19T23:56:23+08:00">
-                2024-09-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          1. 数组[T;N]表示 N 个值，类型为 T 的数组，大小是固定的，不能追加新元素或缩数组&amp;[T]和&amp;mut [T]可称为 T 的共享切片和 T 的可变切片，是对一系列元素的引用v[i]引用的是 v 的第 i 个元素，i 的类型必须是 usize
-123456789101112131415161718192021222324252627282930313233343536373839404142434445464748fn arr() &#123;    // let variable_name : [dataType; size] = [value1,value2,valu
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2024/09/19/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A8.%E6%95%B0%E7%BB%84%E4%B8%8E%E5%88%87%E7%89%87/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1575,7 +1579,7 @@ let s: &amp;str = &quot;hello world&quot;;&amp;str是一种不可变引用，没
               
                 <a href="/archives/%20%7C%7C%20archive">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

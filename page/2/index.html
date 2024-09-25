@@ -229,6 +229,133 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/19/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A8.%E6%95%B0%E7%BB%84%E4%B8%8E%E5%88%87%E7%89%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xduanpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/09/19/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A8.%E6%95%B0%E7%BB%84%E4%B8%8E%E5%88%87%E7%89%87/" itemprop="url">Rust基础：8.数组与切片</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-09-19T23:56:23+08:00">
+                2024-09-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          1. 数组[T;N]表示 N 个值，类型为 T 的数组，大小是固定的，不能追加新元素或缩数组&amp;[T]和&amp;mut [T]可称为 T 的共享切片和 T 的可变切片，是对一系列元素的引用v[i]引用的是 v 的第 i 个元素，i 的类型必须是 usize
+123456789101112131415161718192021222324252627282930313233343536373839404142434445464748fn arr() &#123;    // let variable_name : [dataType; size] = [value1,value2,valu
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2024/09/19/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A8.%E6%95%B0%E7%BB%84%E4%B8%8E%E5%88%87%E7%89%87/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/18/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A7.%E5%BC%95%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1417,136 +1544,6 @@ gas report
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/02/5.%20%E9%92%BB%E7%9F%B3%E5%90%88%E7%BA%A6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xduanpc">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2024/09/02/5.%20%E9%92%BB%E7%9F%B3%E5%90%88%E7%BA%A6/" itemprop="url">5. 钻石合约</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-09-02T15:17:29+08:00">
-                2024-09-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          1. Diamond Pattern(EIP-2535)1.1 解决的问题
-单一地址支持无限合约功能。使用单一地址来处理合约功能，使得合约的部署、测试以及与其他智能合约、软件和用户界面的集成变得更加便捷。
-合约超过 24KB 的最大大小限制。如果你的合约包含多个相关功能，将它们集中在一个单一合约或地址中可能更为合理。钻石合约没有最大合约大小限制。
-钻石合约提供组织合约代码和数据的方式。如果你需要构建一个功能丰富的合约系统，钻石合约提供了一种系统化的方法，可以将不同功能模块化，并在需要时高效地共享数据。
-钻石合约支持功能升级。可升级的钻石合约可以通过添加、替换或移除功能来进行升级。由于钻石合约没
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2024/09/02/5.%20%E9%92%BB%E7%9F%B3%E5%90%88%E7%BA%A6/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1597,7 +1594,7 @@ gas report
               
                 <a href="/archives/%20%7C%7C%20archive">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
