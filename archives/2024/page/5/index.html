@@ -79,15 +79,11 @@
 
 
 
-<meta name="description" content="ERC721练习https:&#x2F;&#x2F;github.com&#x2F;0xduanpc&#x2F;firstnft 主要思路支付不少于一定数量的USDC或ETH，随机锁定一段时间，在解锁时免费mint一个NFT。若提前解锁，返还50%费用+按已锁定时间线性解锁的剩余部分 用到的知识 hardhat ERC20 mapping、array、struct等类型 modifier修饰符 event ERC721 random r">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Solidity 总结">
-<meta property="og:url" content="http://example.com/2024/09/06/Solidity%20%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="0xduanpc">
+<meta property="og:url" content="http://example.com/archives/2024/page/5/index.html">
 <meta property="og:site_name" content="0xduanpc">
-<meta property="og:description" content="ERC721练习https:&#x2F;&#x2F;github.com&#x2F;0xduanpc&#x2F;firstnft 主要思路支付不少于一定数量的USDC或ETH，随机锁定一段时间，在解锁时免费mint一个NFT。若提前解锁，返还50%费用+按已锁定时间线性解锁的剩余部分 用到的知识 hardhat ERC20 mapping、array、struct等类型 modifier修饰符 event ERC721 random r">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2024-09-05T19:20:16.358Z">
-<meta property="article:modified_time" content="2024-09-05T19:23:30.904Z">
 <meta property="article:author" content="0xduanpc">
 <meta name="twitter:card" content="summary">
 
@@ -119,13 +115,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/2024/09/06/Solidity 总结/"/>
+  <link rel="canonical" href="http://example.com/archives/2024/page/5/"/>
 
 
 
 
 
-  <title>Solidity 总结 | 0xduanpc</title>
+  <title>Archive | 0xduanpc</title>
   
 
 
@@ -144,7 +140,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left page-archive">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -218,159 +214,77 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
+  
+  
+  
+  <div class="post-block archive">
+    <div id="posts" class="posts-collapse">
+      <span class="archive-move-on"></span>
 
-  
+      <span class="archive-page-counter">
+        
+        
+         
+        
+        OK! 41 posts in total. Keep on posting.
+      </span>
 
-  
-  
-  
+      
+
+        
+        
+        
+
+        
+          
+          <div class="collection-title">
+            <h1 class="archive-year" id="archive-year-2024">2024</h1>
+          </div>
+        
+        
+
+        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/06/Solidity%20%E6%80%BB%E7%BB%93/">
+    <header class="post-header">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xduanpc">
-    </span>
-
-    
-      <header class="post-header">
-
+      <h2 class="post-title">
         
-        
-          <h1 class="post-title" itemprop="name headline">Solidity 总结</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
+            <a class="post-title-link" href="/2024/08/25/hello-world/" itemprop="url">
               
-                <span class="post-meta-item-text">Posted on</span>
+                <span itemprop="name">Hello World</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-09-06T03:20:16+08:00">
-                2024-09-06
-              </time>
-            
+            </a>
+        
+      </h2>
 
-            
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2024-08-25T15:49:43+08:00"
+              content="2024-08-25" >
+          08-25
+        </time>
+      </div>
 
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h2 id="ERC721练习"><a href="#ERC721练习" class="headerlink" title="ERC721练习"></a>ERC721练习</h2><p><a target="_blank" rel="noopener" href="https://github.com/0xduanpc/firstnft">https://github.com/0xduanpc/firstnft</a></p>
-<h2 id="主要思路"><a href="#主要思路" class="headerlink" title="主要思路"></a>主要思路</h2><p>支付不少于一定数量的USDC或ETH，随机锁定一段时间，在解锁时免费mint一个NFT。若提前解锁，返还50%费用+按已锁定时间线性解锁的剩余部分</p>
-<h2 id="用到的知识"><a href="#用到的知识" class="headerlink" title="用到的知识"></a>用到的知识</h2><ul>
-<li>hardhat</li>
-<li>ERC20</li>
-<li>mapping、array、struct等类型</li>
-<li>modifier修饰符</li>
-<li>event</li>
-<li>ERC721</li>
-<li>random</li>
-<li>require等权限控制</li>
-<li>payable</li>
-<li>safeTransfer</li>
-<li>gas report</li>
-</ul>
-
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2024/09/02/%E3%80%90%E6%89%A9%E5%B1%95%E3%80%91ERC20%E5%92%8CWETH/" rel="next" title="【扩展】ERC20和WETH">
-                <i class="fa fa-chevron-left"></i> 【扩展】ERC20和WETH
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2024/09/15/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A1.%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" rel="prev" title="Rust基础：1.环境搭建">
-                Rust基础：1.环境搭建 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+    </header>
   </article>
 
 
 
-    <div class="post-spread">
       
+
     </div>
   </div>
+  
+  
+  
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/archives/2024/page/4/">&lt;i class&#x3D;&quot;fa fa-angle-left&quot;&gt;&lt;&#x2F;i&gt;</a><a class="page-number" href="/archives/2024/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2024/page/4/">4</a><span class="page-number current">5</span>
+  </nav>
+
+
 
 
           </div>
@@ -378,10 +292,6 @@
 
 
           
-
-  
-
-
 
         </div>
         
@@ -402,17 +312,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -454,22 +355,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ERC721%E7%BB%83%E4%B9%A0"><span class="nav-number">1.</span> <span class="nav-text">ERC721练习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E6%80%9D%E8%B7%AF"><span class="nav-number">2.</span> <span class="nav-text">主要思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E5%88%B0%E7%9A%84%E7%9F%A5%E8%AF%86"><span class="nav-number">3.</span> <span class="nav-text">用到的知识</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -603,10 +488,6 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
 
   
 
