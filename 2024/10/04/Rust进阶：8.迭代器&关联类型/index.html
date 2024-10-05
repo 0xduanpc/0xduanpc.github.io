@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1. 什么是迭代器 迭代器模式：对一系列项执行某些任务  迭代器负责：  遍历每个项 确定序列（遍历）何时完成   Rust 的迭代器：  懒惰的：除非调用消费迭代器的方法，否则迭代器本身没有任何效果  12345678fn iter_study() &#123;  let v1 &#x3D; vec![1, 2, 3];  &#x2F;&#x2F; 这里不使用时是不会调用的，因为rust的迭代器是懒惰的  let v1_it">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rust进阶：8.迭代器&amp;关联类型">
+<meta property="og:url" content="http://example.com/2024/10/04/Rust%E8%BF%9B%E9%98%B6%EF%BC%9A8.%E8%BF%AD%E4%BB%A3%E5%99%A8&%E5%85%B3%E8%81%94%E7%B1%BB%E5%9E%8B/index.html">
+<meta property="og:site_name" content="0xduanpc">
+<meta property="og:description" content="1. 什么是迭代器 迭代器模式：对一系列项执行某些任务  迭代器负责：  遍历每个项 确定序列（遍历）何时完成   Rust 的迭代器：  懒惰的：除非调用消费迭代器的方法，否则迭代器本身没有任何效果  12345678fn iter_study() &#123;  let v1 &#x3D; vec![1, 2, 3];  &#x2F;&#x2F; 这里不使用时是不会调用的，因为rust的迭代器是懒惰的  let v1_it">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-10-03T17:20:39.277Z">
+<meta property="article:modified_time" content="2024-10-05T17:18:46.466Z">
+<meta property="article:author" content="0xduanpc">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2024/10/04/Rust进阶：8.迭代器&关联类型/"/>
+
+
+
+
+
+  <title>Rust进阶：8.迭代器&关联类型 | 0xduanpc</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">0xduanpc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">personal crypto notes</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/04/Rust%E8%BF%9B%E9%98%B6%EF%BC%9A8.%E8%BF%AD%E4%BB%A3%E5%99%A8&%E5%85%B3%E8%81%94%E7%B1%BB%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xduanpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Rust进阶：8.迭代器&关联类型</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-10-04T01:20:39+08:00">
+                2024-10-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-什么是迭代器"><a href="#1-什么是迭代器" class="headerlink" title="1. 什么是迭代器"></a>1. 什么是迭代器</h1><ul>
+<li><p>迭代器模式：对一系列项执行某些任务</p>
+</li>
+<li><p>迭代器负责：</p>
+<ul>
+<li>遍历每个项</li>
+<li>确定序列（遍历）何时完成</li>
+</ul>
+</li>
+<li><p>Rust 的迭代器：</p>
+<ul>
+<li>懒惰的：除非调用消费迭代器的方法，否则迭代器本身没有任何效果</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">iter_study</span>() &#123;</span><br><span class="line">  <span class="keyword">let</span> <span class="variable">v1</span> = <span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line">  <span class="comment">// 这里不使用时是不会调用的，因为rust的迭代器是懒惰的</span></span><br><span class="line">  <span class="keyword">let</span> <span class="variable">v1_iter</span> = v1.<span class="title function_ invoke__">iter</span>();</span><br><span class="line">  <span class="keyword">for</span> <span class="variable">val</span> <span class="keyword">in</span> v1_iter &#123;</span><br><span class="line">      <span class="built_in">println!</span>(<span class="string">&quot;Got:&#123;&#125;&quot;</span>, val);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="2-迭代器的实现"><a href="#2-迭代器的实现" class="headerlink" title="2. 迭代器的实现"></a>2. 迭代器的实现</h1><ul>
+<li>迭代器是一个能够逐一生成元素的对象，它提供了一个统一的接口，用于遍历容器中的元素，同时保证了类型安全和内存安全</li>
+<li>在 Rust 中，迭代器是实现了<code>Iterator</code>trait 的对象。该对象定义了一个<code>next</code>方法，用于返回下一个元素。所有迭代器都实现了<code>Iterator</code>trait，其定义于标准库，定义大致如下：</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">trait</span> <span class="title class_">Iterator</span> &#123;</span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Item</span>;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">next</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;<span class="keyword">Self</span>::Item&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>type item 和 Self::item 定义了与此 trait 关联的类型</p>
+<ul>
+<li>实现<code>Iterator</code>trait 需要你定义一个 Item 类型，它用于 next 方法的返回类型（迭代器的返回类型）</li>
+</ul>
+</li>
+<li><p>简单迭代器</p>
+</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">iter_study</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">numbers</span> = <span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line">    <span class="comment">// 每次next都会消耗迭代器中的元素，所以需要是mut的</span></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">iter</span> = numbers.<span class="title function_ invoke__">iter</span>();</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">let</span> <span class="variable">Some</span>(num) = iter.<span class="title function_ invoke__">next</span>() &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, num);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// for已经获取了变量所有权，并且内部对每个元素都变为可变引用，所以不需要mut</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">iter</span> = numbers.<span class="title function_ invoke__">iter</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">num</span> <span class="keyword">in</span> iter &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, num);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-1-几个迭代的方法"><a href="#2-1-几个迭代的方法" class="headerlink" title="2.1 几个迭代的方法"></a>2.1 几个迭代的方法</h2><ul>
+<li>iter 方法：在不可变引用上创建迭代器</li>
+<li>into_iter 方法：创建的迭代器会获得所有权</li>
+<li>iter_mut 方法：迭代可变的引用</li>
+</ul>
+<h2 id="2-2-消耗迭代器的方法"><a href="#2-2-消耗迭代器的方法" class="headerlink" title="2.2 消耗迭代器的方法"></a>2.2 消耗迭代器的方法</h2><p>如 next、for 等<br>其他的例如 sum，会取得迭代器的所有权，反复调用 next 遍历所有元素，迭代结束时返回总和</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">iter_study</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">v1</span> = <span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">v1_iter</span> = v1.<span class="title function_ invoke__">iter</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">total</span>: <span class="type">i32</span> = v1_iter.<span class="title function_ invoke__">sum</span>();</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;total is : &#123;&#125;&quot;</span>, total);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-3-产生其他迭代器的方法"><a href="#2-3-产生其他迭代器的方法" class="headerlink" title="2.3 产生其他迭代器的方法"></a>2.3 产生其他迭代器的方法</h2><ul>
+<li><code>Iterator trait</code>上的另外一些方法叫做“迭代器适配器”，把迭代器转换为不同类型的迭代器</li>
+<li>可以通过链式调用使用多个迭代器适配器来执行复杂的操作，这种调用可读性较高</li>
+</ul>
+<h3 id="2-3-1-map"><a href="#2-3-1-map" class="headerlink" title="2.3.1 map"></a>2.3.1 <code>map</code></h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">iter_study</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">numbers</span> = <span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line">    <span class="comment">// 通过collect消耗迭代器</span></span><br><span class="line">    <span class="comment">// Vec&lt;_&gt;：编译时自动推断类型</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">squares</span>: <span class="type">Vec</span>&lt;_&gt; = numbers.<span class="title function_ invoke__">iter</span>().<span class="title function_ invoke__">map</span>(|x| x * x).<span class="title function_ invoke__">collect</span>();</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;squares:&#123;:?&#125;&quot;</span>, squares);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-2-filter"><a href="#2-3-2-filter" class="headerlink" title="2.3.2 filter"></a>2.3.2 <code>filter</code></h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">iter_study</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">numbers</span> = <span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">even_numbers</span>: <span class="type">Vec</span>&lt;_&gt; = numbers.<span class="title function_ invoke__">iter</span>().<span class="title function_ invoke__">filter</span>(|&amp;x| x % <span class="number">2</span> == <span class="number">0</span>).<span class="title function_ invoke__">collect</span>();</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;even_numbers:&#123;:?&#125;&quot;</span>, even_numbers);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-4-自定义迭代器"><a href="#2-4-自定义迭代器" class="headerlink" title="2.4 自定义迭代器"></a>2.4 自定义迭代器</h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">counter</span> = Counter::<span class="title function_ invoke__">new</span>();</span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">let</span> <span class="variable">Some</span>(count) = counter.<span class="title function_ invoke__">next</span>() &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, count);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Counter</span> &#123;</span><br><span class="line">    count: <span class="type">u32</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Counter</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">new</span>() <span class="punctuation">-&gt;</span> Counter &#123;</span><br><span class="line">        Counter &#123; count: <span class="number">0</span> &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Iterator</span> <span class="keyword">for</span> <span class="title class_">Counter</span> &#123;</span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Item</span> = <span class="type">u32</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">next</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;<span class="keyword">Self</span>::Item&gt; &#123;</span><br><span class="line">        <span class="keyword">self</span>.count += <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">self</span>.count &lt;= <span class="number">5</span> &#123;</span><br><span class="line">            <span class="title function_ invoke__">Some</span>(<span class="keyword">self</span>.count)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="literal">None</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-课后作业"><a href="#3-课后作业" class="headerlink" title="3. 课后作业"></a>3. 课后作业</h1><p>实现一个用于生成斐波那契数列的迭代器，支持无限生成斐波那契数列，直到用户停止迭代</p>
+<ul>
+<li>任务要求：<ul>
+<li>实现一个结构体<code>Fibonacci</code>，并为它实现<code>Iterator</code>trait</li>
+<li>在<code>next</code>方法中生成下一个斐波那契数</li>
+<li>编写一个测试函数，输出前 10 个斐波那契数</li>
+</ul>
+</li>
+<li>提示：<ul>
+<li>你可以使用两个字段来存储当前和前一个斐波那契数</li>
+<li><code>take</code>方法是一个迭代器适配器，用于限制生成的数量</li>
+<li>注意边界条件，例如处理第一个和第二个斐波那契数</li>
+</ul>
+</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Fibonacci</span> &#123;</span><br><span class="line">  <span class="comment">// 在这里定义所需的字段</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Fibonacci</span> &#123;</span><br><span class="line">  <span class="keyword">fn</span> <span class="title function_">new</span>() <span class="punctuation">-&gt;</span> <span class="keyword">Self</span> &#123;</span><br><span class="line">    <span class="comment">// 初始化结构体</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Iterator</span> <span class="keyword">for</span> <span class="title class_">Fibonacci</span> &#123;</span><br><span class="line">  <span class="keyword">type</span> <span class="title class_">Item</span> = <span class="type">u64</span>;</span><br><span class="line">  <span class="keyword">fn</span> <span class="title function_">next</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;<span class="keyword">Self</span>::Item&gt; &#123;</span><br><span class="line">    <span class="comment">// 实现斐波那契数生成逻辑</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">  <span class="keyword">let</span> <span class="variable">fib</span> = Fibonacci::<span class="title function_ invoke__">new</span>();</span><br><span class="line">  <span class="keyword">for</span> <span class="variable">num</span> <span class="keyword">in</span> fib.<span class="title function_ invoke__">take</span>(<span class="number">10</span>) &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, num);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 输出：</span></span><br><span class="line">  <span class="comment">// 1</span></span><br><span class="line">  <span class="comment">// 1</span></span><br><span class="line">  <span class="comment">// 2</span></span><br><span class="line">  <span class="comment">// 3</span></span><br><span class="line">  <span class="comment">// 5</span></span><br><span class="line">  <span class="comment">// 8</span></span><br><span class="line">  <span class="comment">// 13</span></span><br><span class="line">  <span class="comment">// 21</span></span><br><span class="line">  <span class="comment">// 34</span></span><br><span class="line">  <span class="comment">// 55</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>额外挑战：</p>
+<ul>
+<li>修改迭代器，使其可以接受一个上限参数，当生成的斐波那契数超过这个上限时停止生成</li>
+<li>实现一个 into_vec 方法，将生成的斐波那契数列转换为一个 Vec<u64></li>
+</ul>
+<p>解答</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Fibonacci</span> &#123;</span><br><span class="line">    curr: <span class="type">u64</span>,</span><br><span class="line">    next: <span class="type">u64</span>,</span><br><span class="line">    limit: <span class="type">Option</span>&lt;<span class="type">u64</span>&gt;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Fibonacci</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">new</span>() <span class="punctuation">-&gt;</span> <span class="keyword">Self</span> &#123;</span><br><span class="line">        Fibonacci &#123;</span><br><span class="line">            curr: <span class="number">1</span>,</span><br><span class="line">            next: <span class="number">1</span>,</span><br><span class="line">            limit: <span class="literal">None</span>,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">with_limit</span>(limit: <span class="type">u64</span>) <span class="punctuation">-&gt;</span> <span class="keyword">Self</span> &#123;</span><br><span class="line">        Fibonacci &#123;</span><br><span class="line">            curr: <span class="number">1</span>,</span><br><span class="line">            next: <span class="number">1</span>,</span><br><span class="line">            limit: <span class="title function_ invoke__">Some</span>(limit),</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">into_vec</span>(<span class="keyword">self</span>, count: <span class="type">usize</span>) <span class="punctuation">-&gt;</span> <span class="type">Vec</span>&lt;<span class="type">u64</span>&gt; &#123;</span><br><span class="line">        <span class="keyword">self</span>.<span class="title function_ invoke__">take</span>(count).<span class="title function_ invoke__">collect</span>()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Iterator</span> <span class="keyword">for</span> <span class="title class_">Fibonacci</span> &#123;</span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Item</span> = <span class="type">u64</span>;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">next</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;<span class="keyword">Self</span>::Item&gt; &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Some</span>(limit) = <span class="keyword">self</span>.limit &#123;</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">self</span>.curr &gt; limit &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">None</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">current_fib</span> = <span class="keyword">self</span>.curr;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">new_next</span> = <span class="keyword">self</span>.curr + <span class="keyword">self</span>.next;</span><br><span class="line">        <span class="keyword">self</span>.curr = <span class="keyword">self</span>.next;</span><br><span class="line">        <span class="keyword">self</span>.next = new_next;</span><br><span class="line"></span><br><span class="line">        <span class="title function_ invoke__">Some</span>(current_fib)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">fib</span> = Fibonacci::<span class="title function_ invoke__">new</span>();</span><br><span class="line">    <span class="keyword">for</span> <span class="variable">num</span> <span class="keyword">in</span> fib.<span class="title function_ invoke__">take</span>(<span class="number">10</span>) &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, num);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">fib_with_limit</span> = Fibonacci::<span class="title function_ invoke__">with_limit</span>(<span class="number">100</span>);</span><br><span class="line">    <span class="keyword">for</span> <span class="variable">num</span> <span class="keyword">in</span> fib_with_limit &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, num);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">fib_vec</span> = Fibonacci::<span class="title function_ invoke__">new</span>().<span class="title function_ invoke__">into_vec</span>(<span class="number">10</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Vec: &#123;:?&#125;&quot;</span>, fib_vec);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">5</span><br><span class="line">8</span><br><span class="line">13</span><br><span class="line">21</span><br><span class="line">34</span><br><span class="line">55</span><br><span class="line">1</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">5</span><br><span class="line">8</span><br><span class="line">13</span><br><span class="line">21</span><br><span class="line">34</span><br><span class="line">55</span><br><span class="line">89</span><br><span class="line">Vec: [1, 1, 2, 3, 5, 8, 13, 21, 34, 55]</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/10/03/Rust%E8%BF%9B%E9%98%B6%EF%BC%9A7.%E9%97%AD%E5%8C%85/" rel="next" title="Rust进阶：7.闭包">
+                <i class="fa fa-chevron-left"></i> Rust进阶：7.闭包
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">1. 什么是迭代器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E8%BF%AD%E4%BB%A3%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">2. 迭代器的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E5%87%A0%E4%B8%AA%E8%BF%AD%E4%BB%A3%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 几个迭代的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E6%B6%88%E8%80%97%E8%BF%AD%E4%BB%A3%E5%99%A8%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 消耗迭代器的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E4%BA%A7%E7%94%9F%E5%85%B6%E4%BB%96%E8%BF%AD%E4%BB%A3%E5%99%A8%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 产生其他迭代器的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-1-map"><span class="nav-number">2.3.1.</span> <span class="nav-text">2.3.1 map</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-2-filter"><span class="nav-number">2.3.2.</span> <span class="nav-text">2.3.2 filter</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 自定义迭代器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E8%AF%BE%E5%90%8E%E4%BD%9C%E4%B8%9A"><span class="nav-number">3.</span> <span class="nav-text">3. 课后作业</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">0xduanpc</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -229,6 +229,132 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/23/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A14.%E8%BF%94%E5%9B%9E%E5%80%BC%E4%B8%8E%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xduanpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/09/23/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A14.%E8%BF%94%E5%9B%9E%E5%80%BC%E4%B8%8E%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/" itemprop="url">Rust基础：14.返回值与错误处理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-09-23T02:10:05+08:00">
+                2024-09-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          1. Option 返回值1234567891011121314fn main() &#123;    let five = Some(5);    let six = plus_one(five);    println!(&quot;&#123;:?&#125;&quot;, six);    let none = plus_one(None);    println!(&quot;&#123;:?&#125;&quot;, none);&#125;fn plus_one(x: Option&lt;i32&gt;) -&gt; Option&lt;i32&gt; &#123;    mat
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2024/09/23/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A14.%E8%BF%94%E5%9B%9E%E5%80%BC%E4%B8%8E%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/22/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A13.%E5%B8%B8%E8%A7%81%E9%9B%86%E5%90%88/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1374,133 +1500,6 @@ let s: &amp;str = &quot;hello world&quot;;&amp;str是一种不可变引用，没
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/17/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A4.%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xduanpc">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2024/09/17/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A4.%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/" itemprop="url">Rust基础：4.流程控制</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-09-17T03:21:11+08:00">
-                2024-09-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          1. 条件控制必须显式地使用 bool 值作为 if 的条件
-123456789101112fn main() &#123;    let number = 3;    if number % 4 == 0 &#123;        println!(&quot;number is divisible by 4&quot;);    &#125; else if number % 3 == 0 &#123;        println!(&quot;number is divisible by 3&quot;);    &#125; else if number % 2 == 0 &#12
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2024/09/17/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A4.%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1551,7 +1550,7 @@ let s: &amp;str = &quot;hello world&quot;;&amp;str是一种不可变引用，没
               
                 <a href="/archives/%20%7C%7C%20archive">
               
-                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-count">44</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
