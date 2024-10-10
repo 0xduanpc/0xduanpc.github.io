@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1. 基础知识1.1 并发与并行的区别 并发：多个任务在时间上交替进行 并行：多个任务同时执行  1.2 进程与线程 在大部分 OS 里，代码运行在进程中，OS 同时管理多个进程 在你的程序里，各独立部分可以同时运行，运行这些独立部分的就是线程 多线程运行： 提升性能表现 增加复杂性：无法保障各线程的执行顺序    1.3 多线程可导致的问题 竞争状态：线程以不一致的顺序访问数据或资源 死锁：两个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rust进阶：10.并发 - 概念、线程、通信">
+<meta property="og:url" content="http://example.com/2024/10/06/Rust%E8%BF%9B%E9%98%B6%EF%BC%9A10.%E5%B9%B6%E5%8F%91-%E6%A6%82%E5%BF%B5%E3%80%81%E7%BA%BF%E7%A8%8B%E3%80%81%E9%80%9A%E4%BF%A1/index.html">
+<meta property="og:site_name" content="0xduanpc">
+<meta property="og:description" content="1. 基础知识1.1 并发与并行的区别 并发：多个任务在时间上交替进行 并行：多个任务同时执行  1.2 进程与线程 在大部分 OS 里，代码运行在进程中，OS 同时管理多个进程 在你的程序里，各独立部分可以同时运行，运行这些独立部分的就是线程 多线程运行： 提升性能表现 增加复杂性：无法保障各线程的执行顺序    1.3 多线程可导致的问题 竞争状态：线程以不一致的顺序访问数据或资源 死锁：两个">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-10-06T08:06:56.563Z">
+<meta property="article:modified_time" content="2024-10-10T06:47:53.236Z">
+<meta property="article:author" content="0xduanpc">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2024/10/06/Rust进阶：10.并发-概念、线程、通信/"/>
+
+
+
+
+
+  <title>Rust进阶：10.并发 - 概念、线程、通信 | 0xduanpc</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">0xduanpc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">personal crypto notes</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/06/Rust%E8%BF%9B%E9%98%B6%EF%BC%9A10.%E5%B9%B6%E5%8F%91-%E6%A6%82%E5%BF%B5%E3%80%81%E7%BA%BF%E7%A8%8B%E3%80%81%E9%80%9A%E4%BF%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xduanpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Rust进阶：10.并发 - 概念、线程、通信</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-10-06T16:06:56+08:00">
+                2024-10-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-基础知识"><a href="#1-基础知识" class="headerlink" title="1. 基础知识"></a>1. 基础知识</h1><h2 id="1-1-并发与并行的区别"><a href="#1-1-并发与并行的区别" class="headerlink" title="1.1 并发与并行的区别"></a>1.1 并发与并行的区别</h2><ul>
+<li>并发：多个任务在时间上交替进行</li>
+<li>并行：多个任务同时执行</li>
+</ul>
+<h2 id="1-2-进程与线程"><a href="#1-2-进程与线程" class="headerlink" title="1.2 进程与线程"></a>1.2 进程与线程</h2><ul>
+<li>在大部分 OS 里，代码运行在进程中，OS 同时管理多个进程</li>
+<li>在你的程序里，各独立部分可以同时运行，运行这些独立部分的就是线程</li>
+<li>多线程运行：<ul>
+<li>提升性能表现</li>
+<li>增加复杂性：无法保障各线程的执行顺序</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-3-多线程可导致的问题"><a href="#1-3-多线程可导致的问题" class="headerlink" title="1.3 多线程可导致的问题"></a>1.3 多线程可导致的问题</h2><ul>
+<li>竞争状态：线程以不一致的顺序访问数据或资源</li>
+<li>死锁：两个线程彼此等待对方使用完持有的资源，线程无法继续</li>
+<li>只在某些情况下发生的 Bug，很难可靠地复制现象和修复</li>
+</ul>
+<h2 id="1-4-实现线程的方式"><a href="#1-4-实现线程的方式" class="headerlink" title="1.4 实现线程的方式"></a>1.4 实现线程的方式</h2><ul>
+<li>通过调用 OS 的 API 来创建线程 1:1 模型，需要较小的运行时</li>
+<li>语言自己实现的线程（绿色线程）：M:N 模型，需要更大的运行时</li>
+<li>Rust：需要权衡运行时的支持</li>
+<li>Rust 标准库仅提供 1:1 模型的线程</li>
+</ul>
+<h2 id="1-5-Rust-如何创建线程"><a href="#1-5-Rust-如何创建线程" class="headerlink" title="1.5 Rust 如何创建线程"></a>1.5 Rust 如何创建线程</h2><ul>
+<li>通过 <code>std::thread::spawn</code> 函数创建线程，参数：一个闭包</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::thread;</span><br><span class="line"><span class="keyword">use</span> std::time::Duration;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="title function_ invoke__">thread_study</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">thread_study</span>() &#123;</span><br><span class="line">    thread::<span class="title function_ invoke__">spawn</span>(|| &#123;</span><br><span class="line">        <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">1</span>..<span class="number">10</span> &#123;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;hi number &#123;&#125; from the spawned thread&quot;</span>, i);</span><br><span class="line">            thread::<span class="title function_ invoke__">sleep</span>(Duration::<span class="title function_ invoke__">from_millis</span>(<span class="number">1</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">1</span>..<span class="number">5</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;hi number &#123;&#125; from the main thread&quot;</span>, i);</span><br><span class="line">        thread::<span class="title function_ invoke__">sleep</span>(Duration::<span class="title function_ invoke__">from_millis</span>(<span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Rust 中，主线程退出了，子线程也会退出<br>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">hi number 1 from the main thread</span><br><span class="line">hi number 1 from the spawned thread</span><br><span class="line">hi number 2 from the main thread</span><br><span class="line">hi number 2 from the spawned thread</span><br><span class="line">hi number 3 from the spawned thread</span><br><span class="line">hi number 3 from the main thread</span><br><span class="line">hi number 4 from the spawned thread</span><br><span class="line">hi number 4 from the main thread</span><br><span class="line">hi number 5 from the spawned thread</span><br></pre></td></tr></table></figure>
+
+<p>通过<code>join Handle</code>来等待所有线程完成<br>join 方法会阻止当前运行线程的执行，直到 handle 所表示的这些线程终结</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">thread_study</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">handle</span> = thread::<span class="title function_ invoke__">spawn</span>(|| &#123;</span><br><span class="line">        <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">1</span>..<span class="number">10</span> &#123;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;hi number &#123;&#125; from the spawned thread&quot;</span>, i);</span><br><span class="line">            thread::<span class="title function_ invoke__">sleep</span>(Duration::<span class="title function_ invoke__">from_millis</span>(<span class="number">1</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">1</span>..<span class="number">5</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;hi number &#123;&#125; from the main thread&quot;</span>, i);</span><br><span class="line">        thread::<span class="title function_ invoke__">sleep</span>(Duration::<span class="title function_ invoke__">from_millis</span>(<span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    handle.<span class="title function_ invoke__">join</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-6-使用move闭包"><a href="#1-6-使用move闭包" class="headerlink" title="1.6 使用move闭包"></a>1.6 使用<code>move</code>闭包</h2><p>move 闭包通常和 thread::spawn 函数一起使用，它允许你使用其他线程的数据<br>创建线程时，把值的所有权从一个线程转移到另一个线程</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">thread_study</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">v</span> = <span class="built_in">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line">    <span class="comment">// 闭包可以借用作用域内所有值，但不知道是否还在生命周期内</span></span><br><span class="line">    <span class="comment">// 需要move转移所有权</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">handle</span> = thread::<span class="title function_ invoke__">spawn</span>(<span class="keyword">move</span> || &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;Here is a vector: &#123;:?&#125;&quot;</span>, v);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    handle.<span class="title function_ invoke__">join</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-多线程通信"><a href="#2-多线程通信" class="headerlink" title="2. 多线程通信"></a>2. 多线程通信</h1><h2 id="2-1-消息传递"><a href="#2-1-消息传递" class="headerlink" title="2.1 消息传递"></a>2.1 消息传递</h2><p>一种很流行且能保证安全并发的技术。线程（或<code>Actor</code>）通过彼此发送消息（数据）来进行通信<br>Rust: Channel(标准库提供)</p>
+<h2 id="2-2-Channel"><a href="#2-2-Channel" class="headerlink" title="2.2 Channel"></a>2.2 Channel</h2><ul>
+<li><code>Channel</code>包含发送端、接收端</li>
+<li>调用发送端的方法发送数据</li>
+<li>接收端会检查和接收到达的数据</li>
+<li>如果发送端、接收端中任意一端被丢弃了，那么<code>Channel</code>就关闭了</li>
+</ul>
+<h3 id="2-2-1-创建-Channel"><a href="#2-2-1-创建-Channel" class="headerlink" title="2.2.1 创建 Channel"></a>2.2.1 创建 Channel</h3><ul>
+<li>使用 mpsc::channel 来创建 Channel<ul>
+<li>mpsc 表示<code>multiple producer, single consumer</code>（多个生产者，一个消费者）</li>
+<li>返回一个 tuple，里面元素分别是发送端、接收端</li>
+</ul>
+</li>
+<li>使用 mpsc::sync_channel 来创建缓冲区的 channel<ul>
+<li>入参为缓冲区大小，当缓冲区塞满时进行阻塞</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::sync::mpsc;</span><br><span class="line"><span class="keyword">use</span> std::thread;</span><br><span class="line"><span class="keyword">use</span> std::time::Duration;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="title function_ invoke__">thread_study</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">thread_study</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> (tx, rx) = mpsc::<span class="title function_ invoke__">channel</span>();</span><br><span class="line">    thread::<span class="title function_ invoke__">spawn</span>(<span class="keyword">move</span> || &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">vals</span> = <span class="built_in">vec!</span>[</span><br><span class="line">            <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hi&quot;</span>),</span><br><span class="line">            <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;from&quot;</span>),</span><br><span class="line">            <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;the&quot;</span>),</span><br><span class="line">            <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;thread&quot;</span>),</span><br><span class="line">        ];</span><br><span class="line">        <span class="keyword">for</span> <span class="variable">val</span> <span class="keyword">in</span> vals &#123;</span><br><span class="line">            tx.<span class="title function_ invoke__">send</span>(val).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">            thread::<span class="title function_ invoke__">sleep</span>(Duration::<span class="title function_ invoke__">from_millis</span>(<span class="number">200</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">received</span> <span class="keyword">in</span> rx &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;Got : &#123;&#125;&quot;</span>, received);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-2-总结一下"><a href="#2-2-2-总结一下" class="headerlink" title="2.2.2 总结一下"></a>2.2.2 总结一下</h3><ul>
+<li>发送端的 send 方法<ul>
+<li>参数：想要发送的数据</li>
+<li>返回：<code>Result&lt;T, E&gt;</code><ul>
+<li>如果返回有问题（例如接收端已经被丢弃），就返回一个错误</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>接收端的方法<ul>
+<li>recv 方法：阻止当前线程执行，直到 Channel 中有值被送来<ul>
+<li>一旦有值收到，就返回<code>Result&lt;T, E&gt;</code></li>
+<li>当发送端关闭，就会收到一个错误</li>
+</ul>
+</li>
+<li>try_recv 方法：不会阻塞<ul>
+<li>立即返回<code>Result&lt;T, E&gt;</code><ul>
+<li>有数据到达：返回<code>Ok</code>，里面包含着数据</li>
+<li>否则，返回错误</li>
+</ul>
+</li>
+<li>通常会使用循环调用来检查 try_recv 的结果</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>多个发送端，使用 clone</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::sync::mpsc;</span><br><span class="line"><span class="keyword">use</span> std::thread;</span><br><span class="line"><span class="keyword">use</span> std::time::Duration;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="title function_ invoke__">thread_study</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">thread_study</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> (tx, rx) = mpsc::<span class="title function_ invoke__">channel</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">tx1</span> = mpsc::Sender::<span class="title function_ invoke__">clone</span>(&amp;tx);</span><br><span class="line"></span><br><span class="line">    thread::<span class="title function_ invoke__">spawn</span>(<span class="keyword">move</span> || &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">vals</span> = <span class="built_in">vec!</span>[</span><br><span class="line">            <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hi&quot;</span>),</span><br><span class="line">            <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;from&quot;</span>),</span><br><span class="line">            <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;the&quot;</span>),</span><br><span class="line">            <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;thread&quot;</span>),</span><br><span class="line">        ];</span><br><span class="line">        <span class="keyword">for</span> <span class="variable">val</span> <span class="keyword">in</span> vals &#123;</span><br><span class="line">            tx.<span class="title function_ invoke__">send</span>(val).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">            thread::<span class="title function_ invoke__">sleep</span>(Duration::<span class="title function_ invoke__">from_millis</span>(<span class="number">200</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    thread::<span class="title function_ invoke__">spawn</span>(<span class="keyword">move</span> || &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">vals</span> = <span class="built_in">vec!</span>[</span><br><span class="line">            <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;1:hi&quot;</span>),</span><br><span class="line">            <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;1:from&quot;</span>),</span><br><span class="line">            <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;1:the&quot;</span>),</span><br><span class="line">            <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;1:thread&quot;</span>),</span><br><span class="line">        ];</span><br><span class="line">        <span class="keyword">for</span> <span class="variable">val</span> <span class="keyword">in</span> vals &#123;</span><br><span class="line">            tx1.<span class="title function_ invoke__">send</span>(val).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">            thread::<span class="title function_ invoke__">sleep</span>(Duration::<span class="title function_ invoke__">from_millis</span>(<span class="number">200</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">received</span> <span class="keyword">in</span> rx &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;Got : &#123;&#125;&quot;</span>, received);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-课后习题"><a href="#3-课后习题" class="headerlink" title="3. 课后习题"></a>3. 课后习题</h1><h2 id="3-1-课后习题-1：实现多线程文件处理器"><a href="#3-1-课后习题-1：实现多线程文件处理器" class="headerlink" title="3.1 课后习题 1：实现多线程文件处理器"></a>3.1 课后习题 1：实现多线程文件处理器</h2><ul>
+<li>任务描述<ul>
+<li>从一个 channel 中接收文件路径，并在线程池中处理这些文件。文件处理的具体任务可以是读取文件内容并打印到控制台。你需要使用 Rust 的带缓冲区的 channel 来控制并发线程的数量，从而限制同时处理的文件数量</li>
+</ul>
+</li>
+<li>具体要求<ul>
+<li>文件处理任务：定义一个函数 process_file，该函数接受一个文件路径，读取文件内容，并将内容打印到控制台</li>
+</ul>
+</li>
+<li>多线程控制<ul>
+<li>创建一个带缓冲区的 channel，用于在主线程和工作线程之间传递文件路径</li>
+<li>使用多线程来实现文件处理的并发性，限制线程的并发数量（例如，最多同时处理 4 个文件）</li>
+</ul>
+</li>
+<li>主线程作为生产者<ul>
+<li>主线程负责向通道发送文件路径，假设我们有 10 个文件路径要处理</li>
+</ul>
+</li>
+<li>工作线程作为消费者<ul>
+<li>创建多个工作线程，每个线程从通道中接收文件路径，并调用 process_file 函数来处理文件</li>
+</ul>
+</li>
+</ul>
+<p>解答</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::fs::File;</span><br><span class="line"><span class="keyword">use</span> std::io::&#123;<span class="keyword">self</span>, Read&#125;;</span><br><span class="line"><span class="keyword">use</span> std::sync::mpsc::&#123;<span class="keyword">self</span>, Receiver, Sender&#125;;</span><br><span class="line"><span class="keyword">use</span> std::sync::&#123;Arc, Mutex&#125;;</span><br><span class="line"><span class="keyword">use</span> std::thread;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">process_file</span>(file_path: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> io::<span class="type">Result</span>&lt;()&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">file</span> = File::<span class="title function_ invoke__">open</span>(file_path)?;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">contents</span> = <span class="type">String</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line">    file.<span class="title function_ invoke__">read_to_string</span>(&amp;<span class="keyword">mut</span> contents)?;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Processing file: &#123;&#125;\nContents:\n&#123;&#125;&quot;</span>, file_path, contents);</span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">root_path</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;./data/&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">file_pathes</span> = <span class="built_in">vec!</span>[</span><br><span class="line">        <span class="string">&quot;test1.txt&quot;</span>,</span><br><span class="line">        <span class="string">&quot;test2.txt&quot;</span>,</span><br><span class="line">        <span class="string">&quot;test3.txt&quot;</span>,</span><br><span class="line">        <span class="string">&quot;test4.txt&quot;</span>,</span><br><span class="line">        <span class="string">&quot;test5.txt&quot;</span>,</span><br><span class="line">        <span class="string">&quot;test6.txt&quot;</span>,</span><br><span class="line">        <span class="string">&quot;test7.txt&quot;</span>,</span><br><span class="line">        <span class="string">&quot;test8.txt&quot;</span>,</span><br><span class="line">        <span class="string">&quot;test9.txt&quot;</span>,</span><br><span class="line">        <span class="string">&quot;test10.txt&quot;</span>,</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> (tx, rx): (Sender&lt;<span class="type">String</span>&gt;, Receiver&lt;<span class="type">String</span>&gt;) = mpsc::<span class="title function_ invoke__">channel</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rx</span> = Arc::<span class="title function_ invoke__">new</span>(Mutex::<span class="title function_ invoke__">new</span>(rx));</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">thread_count</span> = <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">handles</span> = <span class="built_in">vec!</span>[];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">_</span> <span class="keyword">in</span> <span class="number">0</span>..thread_count &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">rx</span> = Arc::<span class="title function_ invoke__">clone</span>(&amp;rx);</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">handle</span> = thread::<span class="title function_ invoke__">spawn</span>(<span class="keyword">move</span> || &#123;</span><br><span class="line">            <span class="keyword">while</span> <span class="keyword">let</span> <span class="variable">Ok</span>(file_path) = rx.<span class="title function_ invoke__">lock</span>().<span class="title function_ invoke__">unwrap</span>().<span class="title function_ invoke__">recv</span>() &#123;</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Err</span>(e) = <span class="title function_ invoke__">process_file</span>(&amp;file_path) &#123;</span><br><span class="line">                    <span class="built_in">eprintln!</span>(<span class="string">&quot;Error processing file &#123;&#125;: &#123;&#125;&quot;</span>, file_path, e);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        handles.<span class="title function_ invoke__">push</span>(handle);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">file_path</span> <span class="keyword">in</span> file_pathes &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">path</span> = root_path.<span class="title function_ invoke__">to_string</span>() + &amp;file_path.<span class="title function_ invoke__">to_string</span>();</span><br><span class="line">        tx.<span class="title function_ invoke__">send</span>(path).<span class="title function_ invoke__">expect</span>(<span class="string">&quot;Failed to send message&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">drop</span>(tx);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">handle</span> <span class="keyword">in</span> handles &#123;</span><br><span class="line">        handle.<span class="title function_ invoke__">join</span>().<span class="title function_ invoke__">expect</span>(<span class="string">&quot;Failed to join thread&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-2-课后习题-2：使用-Channel-实现程序的优雅停止"><a href="#3-2-课后习题-2：使用-Channel-实现程序的优雅停止" class="headerlink" title="3.2 课后习题 2：使用 Channel 实现程序的优雅停止"></a>3.2 课后习题 2：使用 Channel 实现程序的优雅停止</h2><ul>
+<li>任务描述<ul>
+<li>在这道联系中，你需要编写一个多线程程序，该程序会创建多个工作线程，持续处理任务，在收到停止信号时，所有工作线程应该优雅地停止工作，并确保所有未完成的任务都被处理完毕</li>
+<li>你将使用 Rust 的 channel 来实现任务的调度和优雅停止机制</li>
+</ul>
+</li>
+<li>具体要求<ul>
+<li>工作线程：创建一个工作线程池，工作线程从通道接收任务并处理</li>
+<li>工作线程应能够响应停止信号，并在完成当前任务后优雅地退出</li>
+</ul>
+</li>
+<li>任务结构<ul>
+<li>任务可以是最简单的打印操作，模拟一些耗时工作，例如打印任务 ID 并暂停一段时间</li>
+</ul>
+</li>
+<li>优雅停止<ul>
+<li>通过发送一个特殊的停止信号，通知所有工作线程停止接收新的任务，并在完成当前任务后退出</li>
+<li>确保所有已接收的任务都被处理完毕</li>
+</ul>
+</li>
+<li>主线程控制<ul>
+<li>主线程应当能够发送任务，也能够在适当的时候发送停止信号，触发工作线程的优雅停止</li>
+</ul>
+</li>
+</ul>
+<p>解答</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::sync::&#123;mpsc, Arc, Mutex&#125;;</span><br><span class="line"><span class="keyword">use</span> std::thread;</span><br><span class="line"><span class="keyword">use</span> std::time::Duration;</span><br><span class="line"></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">Message</span> &#123;</span><br><span class="line">    <span class="title function_ invoke__">NewTask</span>(<span class="type">u32</span>),</span><br><span class="line">    Stop,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ThreadPool</span> &#123;</span><br><span class="line">    workers: <span class="type">Vec</span>&lt;Worker&gt;,</span><br><span class="line">    sender: mpsc::Sender&lt;Message&gt;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">ThreadPool</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">new</span>(size: <span class="type">usize</span>) <span class="punctuation">-&gt;</span> ThreadPool &#123;</span><br><span class="line">        <span class="built_in">assert!</span>(size &gt; <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> (sender, receiver) = mpsc::<span class="title function_ invoke__">channel</span>();</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">receiver</span> = Arc::<span class="title function_ invoke__">new</span>(Mutex::<span class="title function_ invoke__">new</span>(receiver));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">workers</span> = <span class="type">Vec</span>::<span class="title function_ invoke__">with_capacity</span>(size);</span><br><span class="line">        <span class="keyword">for</span> <span class="variable">id</span> <span class="keyword">in</span> <span class="number">0</span>..size &#123;</span><br><span class="line">            workers.<span class="title function_ invoke__">push</span>(Worker::<span class="title function_ invoke__">new</span>(id, Arc::<span class="title function_ invoke__">clone</span>(&amp;receiver)));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        ThreadPool &#123; workers, sender &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">excute</span>(&amp;<span class="keyword">self</span>, task_id: <span class="type">u32</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.sender.<span class="title function_ invoke__">send</span>(Message::<span class="title function_ invoke__">NewTask</span>(task_id)).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">stop</span>(&amp;<span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> <span class="variable">_</span> <span class="keyword">in</span> &amp;<span class="keyword">self</span>.workers &#123;</span><br><span class="line">            <span class="keyword">self</span>.sender.<span class="title function_ invoke__">send</span>(Message::Stop).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Worker</span> &#123;</span><br><span class="line">    id: <span class="type">usize</span>,</span><br><span class="line">    thread: <span class="type">Option</span>&lt;thread::JoinHandle&lt;()&gt;&gt;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Worker</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">new</span>(id: <span class="type">usize</span>, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Message&gt;&gt;&gt;) <span class="punctuation">-&gt;</span> Worker &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">thread</span> = thread::<span class="title function_ invoke__">spawn</span>(<span class="keyword">move</span> || <span class="keyword">loop</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> <span class="variable">message</span> = receiver.<span class="title function_ invoke__">lock</span>().<span class="title function_ invoke__">unwrap</span>().<span class="title function_ invoke__">recv</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">match</span> message &#123;</span><br><span class="line">                Message::<span class="title function_ invoke__">NewTask</span>(task_id) =&gt; &#123;</span><br><span class="line">                    <span class="built_in">println!</span>(<span class="string">&quot;Worker &#123;&#125; got a new task: &#123;&#125;&quot;</span>, id, task_id);</span><br><span class="line">                    thread::<span class="title function_ invoke__">sleep</span>(Duration::<span class="title function_ invoke__">from_secs</span>(<span class="number">2</span>));</span><br><span class="line">                    <span class="built_in">println!</span>(<span class="string">&quot;Worker &#123;&#125; finished task: &#123;&#125;&quot;</span>, id, task_id);</span><br><span class="line">                &#125;</span><br><span class="line">                Message::Stop =&gt; &#123;</span><br><span class="line">                    <span class="built_in">println!</span>(<span class="string">&quot;Worker &#123;&#125; was told to stop.&quot;</span>, id);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        Worker &#123;</span><br><span class="line">            id,</span><br><span class="line">            thread: <span class="title function_ invoke__">Some</span>(thread),</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">pool</span> = ThreadPool::<span class="title function_ invoke__">new</span>(<span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span>..<span class="number">10</span> &#123;</span><br><span class="line">        pool.<span class="title function_ invoke__">excute</span>(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    thread::<span class="title function_ invoke__">sleep</span>(Duration::<span class="title function_ invoke__">from_secs</span>(<span class="number">5</span>));</span><br><span class="line">    pool.<span class="title function_ invoke__">stop</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">worker</span> <span class="keyword">in</span> pool.workers &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Some</span>(thread) = worker.thread &#123;</span><br><span class="line">            thread.<span class="title function_ invoke__">join</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;All tasks are complete and all workers have stopped.&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/10/06/Rust%E8%BF%9B%E9%98%B6%EF%BC%9A9.test%E6%B5%8B%E8%AF%95/" rel="next" title="Rust进阶：9.test测试">
+                <i class="fa fa-chevron-left"></i> Rust进阶：9.test测试
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2024/10/07/Rust%E8%BF%9B%E9%98%B6%EF%BC%9A11.%E5%B9%B6%E5%8F%91-%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98/" rel="prev" title="Rust进阶：11.并发-共享内存">
+                Rust进阶：11.并发-共享内存 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">1. 基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E5%B9%B6%E5%8F%91%E4%B8%8E%E5%B9%B6%E8%A1%8C%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 并发与并行的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 进程与线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%8F%AF%E5%AF%BC%E8%87%B4%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 多线程可导致的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-%E5%AE%9E%E7%8E%B0%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 实现线程的方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5-Rust-%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B"><span class="nav-number">1.5.</span> <span class="nav-text">1.5 Rust 如何创建线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-6-%E4%BD%BF%E7%94%A8move%E9%97%AD%E5%8C%85"><span class="nav-number">1.6.</span> <span class="nav-text">1.6 使用move闭包</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%80%9A%E4%BF%A1"><span class="nav-number">2.</span> <span class="nav-text">2. 多线程通信</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 消息传递</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Channel"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 Channel</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-%E5%88%9B%E5%BB%BA-Channel"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1 创建 Channel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2.2 总结一下</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E8%AF%BE%E5%90%8E%E4%B9%A0%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">3. 课后习题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E8%AF%BE%E5%90%8E%E4%B9%A0%E9%A2%98-1%EF%BC%9A%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E5%99%A8"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 课后习题 1：实现多线程文件处理器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E8%AF%BE%E5%90%8E%E4%B9%A0%E9%A2%98-2%EF%BC%9A%E4%BD%BF%E7%94%A8-Channel-%E5%AE%9E%E7%8E%B0%E7%A8%8B%E5%BA%8F%E7%9A%84%E4%BC%98%E9%9B%85%E5%81%9C%E6%AD%A2"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 课后习题 2：使用 Channel 实现程序的优雅停止</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">0xduanpc</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
