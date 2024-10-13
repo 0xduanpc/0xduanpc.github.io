@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1. 账户 数据账户，用来存储数据 系统所有账户 程序派生账户（PDA）   程序账户，用来执行可执行程序 原生账户，指 Solana 上的原生程序，例如“Sytem”，“Stake”，以及“Vote”  1.1 账户结构体 Account 更完整的账户表述，包含账户的所有数据副本 常用于客户端或测试环境中，用于模拟或获取完整的账户状态 适合离线处理或全局管理账户数据   AccountInfo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Solana：3.账户&amp;简单的交互">
+<meta property="og:url" content="http://example.com/2024/10/13/Solana%EF%BC%9A3.%E8%B4%A6%E6%88%B7&%E7%AE%80%E5%8D%95%E7%9A%84%E4%BA%A4%E4%BA%92/index.html">
+<meta property="og:site_name" content="0xduanpc">
+<meta property="og:description" content="1. 账户 数据账户，用来存储数据 系统所有账户 程序派生账户（PDA）   程序账户，用来执行可执行程序 原生账户，指 Solana 上的原生程序，例如“Sytem”，“Stake”，以及“Vote”  1.1 账户结构体 Account 更完整的账户表述，包含账户的所有数据副本 常用于客户端或测试环境中，用于模拟或获取完整的账户状态 适合离线处理或全局管理账户数据   AccountInfo">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-10-13T14:31:22.195Z">
+<meta property="article:modified_time" content="2024-10-13T18:35:19.272Z">
+<meta property="article:author" content="0xduanpc">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2024/10/13/Solana：3.账户&简单的交互/"/>
+
+
+
+
+
+  <title>Solana：3.账户&简单的交互 | 0xduanpc</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">0xduanpc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">personal crypto notes</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/13/Solana%EF%BC%9A3.%E8%B4%A6%E6%88%B7&%E7%AE%80%E5%8D%95%E7%9A%84%E4%BA%A4%E4%BA%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xduanpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Solana：3.账户&简单的交互</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-10-13T22:31:22+08:00">
+                2024-10-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-账户"><a href="#1-账户" class="headerlink" title="1. 账户"></a>1. 账户</h1><ul>
+<li>数据账户，用来存储数据<ul>
+<li>系统所有账户</li>
+<li>程序派生账户（PDA）</li>
+</ul>
+</li>
+<li>程序账户，用来执行可执行程序</li>
+<li>原生账户，指 Solana 上的原生程序，例如“Sytem”，“Stake”，以及“Vote”</li>
+</ul>
+<h2 id="1-1-账户结构体"><a href="#1-1-账户结构体" class="headerlink" title="1.1 账户结构体"></a>1.1 账户结构体</h2><ul>
+<li>Account<ul>
+<li>更完整的账户表述，包含账户的所有数据副本</li>
+<li>常用于客户端或测试环境中，用于模拟或获取完整的账户状态</li>
+<li>适合离线处理或全局管理账户数据</li>
+</ul>
+</li>
+<li>AccountInfo<ul>
+<li>更轻量级，包含对区块链上现有账户数据的引用</li>
+<li>用于在 Solana 程序（智能合约）内部处理账户</li>
+<li>适合在链上处理和操作账户数据</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-2-要点"><a href="#1-2-要点" class="headerlink" title="1.2 要点"></a>1.2 要点</h2><ul>
+<li>账户是用来存放数据的</li>
+<li>每个账户都有一个独一无二的地址</li>
+<li>每个账户大小不能超过 10MB</li>
+<li>账户大小是静态的</li>
+<li>账户数据存储需要付租金</li>
+<li>默认的账户所有者是“系统程序”</li>
+</ul>
+<h2 id="1-3-程序派生账户（PDA）"><a href="#1-3-程序派生账户（PDA）" class="headerlink" title="1.3 程序派生账户（PDA）"></a>1.3 程序派生账户（PDA）</h2><p>相关概念：<code>https://solana.com/zh/docs/core/pda</code></p>
+<ol>
+<li>不能直接签名交易</li>
+</ol>
+<ul>
+<li>限制：PDA 账户没有私钥，因此无法像普通账户那样签名交易。</li>
+<li>影响：这意味着 PDA 无法自主发起交易，它只能被相关的智能合约程序用作数据存储或执行操作。这确保了 PDA 只能在程序的控制下使用。</li>
+</ul>
+<ol start="2">
+<li>地址碰撞的可能性</li>
+</ol>
+<ul>
+<li>限制：在理论上，虽然非常罕见，使用相同的程序 ID 和相同的种子值可以生成相同的 PDA 地址。</li>
+<li>影响：这意味着在设计智能合约时，开发者必须谨慎选择种子值，以确保不会产生地址碰撞。一般来说，通过使用唯一的种子（比如用户的公钥和其他独特的数据），可以避免这种问题。</li>
+</ul>
+<ol start="3">
+<li>PDA 地址的最大长度</li>
+</ol>
+<ul>
+<li>限制：PDA 的种子值组合在一起不能超过 32 字节(bytes)。</li>
+<li>影响：如果你的数据太大，可能无法直接作为种子使用。你可能需要对数据进行哈希处理或其他方式来适应这个限制。</li>
+</ul>
+<ol start="4">
+<li>生成 PDA 的计算成本</li>
+</ol>
+<ul>
+<li>限制：PDA 是通过哈希函数计算生成的，这个过程消耗计算资源。</li>
+<li>影响:在性能敏感的应用中，频繁生成 PDA 可能增加链上计算的成本，影响程序的执行效率。因此，在设计程序时需要平衡性能和安全性。</li>
+</ul>
+<ol start="5">
+<li>单一程序的访问</li>
+</ol>
+<ul>
+<li>限制：PDA 账户是由一个特定的程序生成和控制的，只有这个程序可以操作该 PDA 账户。</li>
+<li>影响：虽然这提供了很强的安全性，但也意味着你不能轻易地跨程序共享 PDA 账户。如果多个程序需要访问相同的数据，可能需要复杂的设计或数据复制。</li>
+</ul>
+<ol start="6">
+<li>内存账户的使用</li>
+</ol>
+<ul>
+<li>限制：如果 PDA 被用作 Solana 上的内存账户(即需要存储较多的数据)，这些账户的大小是有限制的，超过一定大小需要支付更高的费用来增加内存租金。</li>
+<li>影响：你需要考虑 PDA 账户的数据量，避免不必要的存储开销，或者拆分数据存储到多个 PDA 账户中。</li>
+</ul>
+<h2 id="1-4-PDA-应用场景"><a href="#1-4-PDA-应用场景" class="headerlink" title="1.4 PDA 应用场景"></a>1.4 PDA 应用场景</h2><ol>
+<li>用户状态管理</li>
+<li>去中心化金融（DeFi）协议</li>
+<li>NFT 元数据存储</li>
+<li>DAO（去中心化自治组织）投票系统</li>
+<li>时间锁合约</li>
+<li>多签（Multisig）钱包</li>
+<li>去中心化身份验证</li>
+</ol>
+<h1 id="2-交互"><a href="#2-交互" class="headerlink" title="2. 交互"></a>2. 交互</h1><h2 id="2-1-开发使用的-Rust-库"><a href="#2-1-开发使用的-Rust-库" class="headerlink" title="2.1 开发使用的 Rust 库"></a>2.1 开发使用的 Rust 库</h2><ul>
+<li>solana_client</li>
+<li>solana_sdk</li>
+<li>solana_program</li>
+</ul>
+<h2 id="2-2-实战"><a href="#2-2-实战" class="headerlink" title="2.2 实战"></a>2.2 实战</h2><ul>
+<li>启动本地环境</li>
+<li>更改 solana 配置，链接到本地开发环境</li>
+<li>创建本地账户</li>
+<li>给新建账户空投 sol</li>
+<li>使用 SDK<ul>
+<li>空投 sol</li>
+<li>获取账号信息</li>
+<li>转移 sol</li>
+</ul>
+</li>
+<li>通过 JsonRpc 获取账户信息</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::<span class="type">str</span>::FromStr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> solana_client::rpc_client::RpcClient;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::pubkey::Pubkey;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::signature::&#123;<span class="keyword">self</span>, read_keypair_file&#125;;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::signer::Signer;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::&#123;system_instruction, transaction::Transaction&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// HRzVQQmPPDEJAVQANt8PwVUi9d6oC3eJM4ig1E7n8rXz</span></span><br><span class="line"><span class="comment">// 56TVGTU88YtAida1D69pvLRTgUHLUo6w3o2YiFVVFRwS</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 创建solana连接</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rpc_url</span> = <span class="string">&quot;https://api.devnet.solana.com&quot;</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">client</span> = RpcClient::<span class="title function_ invoke__">new</span>(rpc_url);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 指定你要查询的余额账户公钥</span></span><br><span class="line">    <span class="comment">// 接收空投账户</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">account_pubkey</span> = Pubkey::<span class="title function_ invoke__">from_str</span>(<span class="string">&quot;HRzVQQmPPDEJAVQANt8PwVUi9d6oC3eJM4ig1E7n8rXz&quot;</span>).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// sender 发送方</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">sender</span> = <span class="title function_ invoke__">read_keypair_file</span>(<span class="string">&quot;/Users/duanpeichen/.config/solana/id.json&quot;</span>).<span class="title function_ invoke__">expect</span>(<span class="string">&quot;failed&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">recipient_pubkey</span> =</span><br><span class="line">        Pubkey::<span class="title function_ invoke__">from_str</span>(<span class="string">&quot;56TVGTU88YtAida1D69pvLRTgUHLUo6w3o2YiFVVFRwS&quot;</span>).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 最小单位lamports，1 SOL = 1_000_000_000 lamports</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">amount</span> = <span class="number">1_000_000_000</span>; <span class="comment">// 1 SOL</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">match</span> client.<span class="title function_ invoke__">request_airdrop</span>(&amp;account_pubkey, amount) &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(signature) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;空投成功，交易签名: &#123;&#125;&quot;</span>, signature),</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(err) =&gt; <span class="built_in">eprintln!</span>(<span class="string">&quot;空投失败: &#123;&#125;&quot;</span>, err),</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取账户余额</span></span><br><span class="line">    <span class="keyword">match</span> client.<span class="title function_ invoke__">get_balance</span>(&amp;account_pubkey) &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(balance) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;账户余额:&#123;&#125; lamports&quot;</span>, balance),</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(err) =&gt; <span class="built_in">eprintln!</span>(<span class="string">&quot;获取账户余额失败:&#123;&#125;&quot;</span>, err),</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建转账指令</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">transfer_instruction</span> =</span><br><span class="line">        system_instruction::<span class="title function_ invoke__">transfer</span>(&amp;sender.<span class="title function_ invoke__">pubkey</span>(), &amp;recipient_pubkey, amount);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建交易</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">recent_blockhash</span> = client.<span class="title function_ invoke__">get_latest_blockhash</span>().<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">transaction</span> = Transaction::<span class="title function_ invoke__">new_signed_with_payer</span>(</span><br><span class="line">        &amp;[transfer_instruction],</span><br><span class="line">        <span class="title function_ invoke__">Some</span>(&amp;sender.<span class="title function_ invoke__">pubkey</span>()),</span><br><span class="line">        &amp;[&amp;sender],</span><br><span class="line">        recent_blockhash,</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result</span> = client.<span class="title function_ invoke__">send_and_confirm_transaction</span>(&amp;transaction);</span><br><span class="line">    <span class="keyword">match</span> result &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(signature) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;转账成功，交易签名: &#123;&#125;&quot;</span>, signature),</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(err) =&gt; <span class="built_in">eprintln!</span>(<span class="string">&quot;转账失败: &#123;&#125;&quot;</span>, err),</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取账户余额</span></span><br><span class="line">    <span class="keyword">match</span> client.<span class="title function_ invoke__">get_balance</span>(&amp;recipient_pubkey) &#123;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(balance) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;账户余额:&#123;&#125; lamports&quot;</span>, balance),</span><br><span class="line">        <span class="title function_ invoke__">Err</span>(err) =&gt; <span class="built_in">eprintln!</span>(<span class="string">&quot;获取账户余额失败:&#123;&#125;&quot;</span>, err),</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>https://solana.com/docs/rpc/http/getaccountinfo</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">curl https://api.devnet.solana.com -X POST -H <span class="string">&quot;Content-Type: application/json&quot;</span> -d <span class="string">&#x27;</span></span><br><span class="line"><span class="string">  &#123;</span></span><br><span class="line"><span class="string">    &quot;jsonrpc&quot;: &quot;2.0&quot;,</span></span><br><span class="line"><span class="string">    &quot;id&quot;: 1,</span></span><br><span class="line"><span class="string">    &quot;method&quot;: &quot;getAccountInfo&quot;,</span></span><br><span class="line"><span class="string">    &quot;params&quot;: [</span></span><br><span class="line"><span class="string">      &quot;HRzVQQmPPDEJAVQANt8PwVUi9d6oC3eJM4ig1E7n8rXz&quot;,</span></span><br><span class="line"><span class="string">      &#123;</span></span><br><span class="line"><span class="string">        &quot;encoding&quot;: &quot;base58&quot;</span></span><br><span class="line"><span class="string">      &#125;</span></span><br><span class="line"><span class="string">    ]</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">&#x27;</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/10/12/Solana%EF%BC%9A2.%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8/" rel="next" title="Solana：2.开发入门">
+                <i class="fa fa-chevron-left"></i> Solana：2.开发入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E8%B4%A6%E6%88%B7"><span class="nav-number">1.</span> <span class="nav-text">1. 账户</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E8%B4%A6%E6%88%B7%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 账户结构体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E8%A6%81%E7%82%B9"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 要点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E7%A8%8B%E5%BA%8F%E6%B4%BE%E7%94%9F%E8%B4%A6%E6%88%B7%EF%BC%88PDA%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 程序派生账户（PDA）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4-PDA-%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 PDA 应用场景</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E4%BA%A4%E4%BA%92"><span class="nav-number">2.</span> <span class="nav-text">2. 交互</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E5%BC%80%E5%8F%91%E4%BD%BF%E7%94%A8%E7%9A%84-Rust-%E5%BA%93"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 开发使用的 Rust 库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E5%AE%9E%E6%88%98"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 实战</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">0xduanpc</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

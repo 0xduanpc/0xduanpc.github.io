@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1. Native Rust12$ cargo new --lib &lt;project_name&gt; # new project$ cargo add solana-program # deps  修改编译配置 12345678[lib]crate-type &#x3D; [&quot;cdylib&quot;, &quot;lib&quot;][features]no-entrypoint &#x3D; [">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Solana：2.开发入门">
+<meta property="og:url" content="http://example.com/2024/10/12/Solana%EF%BC%9A2.%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="0xduanpc">
+<meta property="og:description" content="1. Native Rust12$ cargo new --lib &lt;project_name&gt; # new project$ cargo add solana-program # deps  修改编译配置 12345678[lib]crate-type &#x3D; [&quot;cdylib&quot;, &quot;lib&quot;][features]no-entrypoint &#x3D; [">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-10-12T15:33:39.434Z">
+<meta property="article:modified_time" content="2024-10-13T14:30:27.594Z">
+<meta property="article:author" content="0xduanpc">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2024/10/12/Solana：2.开发入门/"/>
+
+
+
+
+
+  <title>Solana：2.开发入门 | 0xduanpc</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">0xduanpc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">personal crypto notes</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/12/Solana%EF%BC%9A2.%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xduanpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Solana：2.开发入门</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-10-12T23:33:39+08:00">
+                2024-10-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-Native-Rust"><a href="#1-Native-Rust" class="headerlink" title="1. Native Rust"></a>1. Native Rust</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cargo new --lib &lt;project_name&gt; <span class="comment"># new project</span></span><br><span class="line">$ cargo add solana-program <span class="comment"># deps</span></span><br></pre></td></tr></table></figure>
+
+<p>修改编译配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[lib]</span><br><span class="line">crate-type = [&quot;cdylib&quot;, &quot;lib&quot;]</span><br><span class="line"></span><br><span class="line">[features]</span><br><span class="line">no-entrypoint = []</span><br><span class="line"></span><br><span class="line">[dependencies]</span><br><span class="line">solana-program = &quot;1.16.24&quot;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> solana_program::&#123;</span><br><span class="line">    account_info::AccountInfo, entrypoint, entrypoint::ProgramResult, msg, pubkey::Pubkey,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">entrypoint!(process_instruction);</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">process_instruction</span>(</span><br><span class="line">    program_id: &amp;Pubkey,</span><br><span class="line">    _accounts: &amp;[AccountInfo],</span><br><span class="line">    _instruction_data: &amp;[<span class="type">u8</span>],</span><br><span class="line">) <span class="punctuation">-&gt;</span> ProgramResult &#123;</span><br><span class="line">    msg!(<span class="string">&quot;Hello, Solana!&quot;</span>);</span><br><span class="line"></span><br><span class="line">    msg!(<span class="string">&quot;Our program&#x27;s Program ID: &#123;&#125;&quot;</span>, &amp;program_id);</span><br><span class="line">    msg!(<span class="string">&quot;program_id: &#123;:?&#125;&quot;</span>, program_id);</span><br><span class="line">    msg!(<span class="string">&quot;_accounts: &#123;:?&#125;&quot;</span>, _accounts);</span><br><span class="line">    msg!(<span class="string">&quot;_instruction_data: &#123;:?&#125;&quot;</span>, _instruction_data);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 解析 instruction_data 指令执行不同的操作</span></span><br><span class="line">    <span class="keyword">let</span> (instruction_discriminant, instruction_data_inner) = _instruction_data.<span class="title function_ invoke__">split_at</span>(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">match</span> instruction_discriminant[<span class="number">0</span>] &#123;</span><br><span class="line">        <span class="number">0</span> =&gt; &#123;</span><br><span class="line">            msg!(<span class="string">&quot;Instruction: Increment&quot;</span>);</span><br><span class="line">            <span class="title function_ invoke__">process_increment_counter</span>(accounts, instruction_data_inner)?;</span><br><span class="line">        &#125;</span><br><span class="line">        _ =&gt; &#123;</span><br><span class="line">            msg!(<span class="string">&quot;Error: unknown instruction&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Build &amp; Deploy</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ solana config get</span><br><span class="line">$ cargo build-sbf</span><br><span class="line">$ solana program deploy &lt;xxx.so&gt; <span class="comment"># target/sbf-solana-solana/release/hello_world.so</span></span><br><span class="line">$ solana program close &lt;program_id&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-Playground"><a href="#2-Playground" class="headerlink" title="2. Playground"></a>2. Playground</h1><p><code>https://beta.solpg.io/</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;My address:&quot;</span>, pg.<span class="property">wallet</span>.<span class="property">publicKey</span>.<span class="title function_">toString</span>());</span><br><span class="line"><span class="keyword">const</span> balance = <span class="keyword">await</span> pg.<span class="property">connection</span>.<span class="title function_">getBalance</span>(pg.<span class="property">wallet</span>.<span class="property">publicKey</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`My balance: <span class="subst">$&#123;balance / web3.LAMPORTS_PER_SOL&#125;</span> SOL`</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;ProgramID: &quot;</span>, pg.<span class="property">PROGRAM_ID</span>.<span class="title function_">toString</span>());</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> blockhashInfo = <span class="keyword">await</span> pg.<span class="property">connection</span>.<span class="title function_">getLatestBlockhash</span>();</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;blockhashInfo&quot;</span>, blockhashInfo);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> tx = <span class="keyword">new</span> web3.<span class="title class_">Transaction</span>(&#123;</span><br><span class="line">  ...blockhashInfo,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">tx.<span class="title function_">add</span>(</span><br><span class="line">  <span class="keyword">new</span> web3.<span class="title class_">TransactionInstruction</span>(&#123;</span><br><span class="line">    <span class="attr">programId</span>: pg.<span class="property">PROGRAM_ID</span>,</span><br><span class="line">    <span class="attr">keys</span>: [],</span><br><span class="line">    <span class="attr">data</span>: <span class="title class_">Buffer</span>.<span class="title function_">from</span>([]),</span><br><span class="line">  &#125;)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">tx.<span class="title function_">sign</span>(pg.<span class="property">wallet</span>.<span class="property">keypair</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> txHash = <span class="keyword">await</span> pg.<span class="property">connection</span>.<span class="title function_">sendRawTransaction</span>(tx.<span class="title function_">serialize</span>());</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Transaction sent with hash:&quot;</span>, txHash);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> result = <span class="keyword">await</span> pg.<span class="property">connection</span>.<span class="title function_">confirmTransaction</span>(&#123;</span><br><span class="line">  <span class="attr">blockhash</span>: blockhashInfo.<span class="property">blockhash</span>,</span><br><span class="line">  <span class="attr">lastValidBlockHeight</span>: blockhashInfo.<span class="property">lastValidBlockHeight</span>,</span><br><span class="line">  <span class="attr">signature</span>: txHash,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-Anchor"><a href="#3-Anchor" class="headerlink" title="3. Anchor"></a>3. Anchor</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ anchor init &lt;project_name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Anchor.toml 中修改</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[programs.devnet]</span></span><br><span class="line"><span class="attr">anchor_lesson_1</span> = <span class="string">&quot;Cc2JjvqsU4gUvrW3xjtYejKiheibCsaDVTJa3fEuSipq&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="section">[registry]</span></span><br><span class="line"><span class="attr">url</span> = <span class="string">&quot;https://api.apr.dev&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="section">[provider]</span></span><br><span class="line"><span class="attr">cluster</span> = <span class="string">&quot;devnet&quot;</span></span><br><span class="line"><span class="attr">wallet</span> = <span class="string">&quot;~/.config/solana/id.json&quot;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ anchor <span class="built_in">test</span></span><br><span class="line">$ anchor deploy</span><br></pre></td></tr></table></figure>
+
+<p>Deploy Failed</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ solana program show --buffers</span><br><span class="line">$ solana program close --buffers</span><br></pre></td></tr></table></figure>
+
+<h1 id="4-课后作业"><a href="#4-课后作业" class="headerlink" title="4. 课后作业"></a>4. 课后作业</h1><p>通过<code>Anchor</code>框架实现一个 todo 项目，部署到 devnet</p>
+<ol>
+<li>新建 todo</li>
+<li>查看 todo</li>
+<li>删除 todo item</li>
+</ol>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> anchor_lang::prelude::*;</span><br><span class="line"><span class="keyword">use</span> anchor_lang::solana_program::system_program;</span><br><span class="line"></span><br><span class="line">declare_id!(<span class="string">&quot;GjEd2fLwmkiqBX37WrazcEfhPm2Tkoqc87bh5P3XLCUZ&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="meta">#[program]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">mod</span> todo_app &#123;</span><br><span class="line">    <span class="keyword">use</span> super::*;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">initialize</span>(ctx: Context&lt;Initialize&gt;) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;()&gt; &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">todo_list</span> = &amp;<span class="keyword">mut</span> ctx.accounts.todo_list;</span><br><span class="line">        todo_list.owner = ctx.accounts.user.<span class="title function_ invoke__">key</span>();</span><br><span class="line">        todo_list.items = <span class="type">Vec</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">add_todo</span>(ctx: Context&lt;UpdateTodo&gt;, description: <span class="type">String</span>) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;()&gt; &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">todo_list</span> = &amp;<span class="keyword">mut</span> ctx.accounts.todo_list;</span><br><span class="line">        require!(todo_list.owner == ctx.accounts.user.<span class="title function_ invoke__">key</span>(), CustomError::Unauthorized);</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">todo_item</span> = TodoItem &#123;</span><br><span class="line">            description,</span><br><span class="line">            is_done: <span class="literal">false</span>,</span><br><span class="line">        &#125;;</span><br><span class="line">        todo_list.items.<span class="title function_ invoke__">push</span>(todo_item);</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">remove_todo</span>(ctx: Context&lt;UpdateTodo&gt;, index: <span class="type">u64</span>) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;()&gt; &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">todo_list</span> = &amp;<span class="keyword">mut</span> ctx.accounts.todo_list;</span><br><span class="line">        require!(todo_list.owner == ctx.accounts.user.<span class="title function_ invoke__">key</span>(), CustomError::Unauthorized);</span><br><span class="line">        <span class="keyword">if</span> (index <span class="keyword">as</span> <span class="type">usize</span>) &lt; todo_list.items.<span class="title function_ invoke__">len</span>() &#123;</span><br><span class="line">            todo_list.items.<span class="title function_ invoke__">remove</span>(index <span class="keyword">as</span> <span class="type">usize</span>);</span><br><span class="line">            <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="title function_ invoke__">Err</span>(CustomError::InvalidIndex.<span class="title function_ invoke__">into</span>())</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">get_todos</span>(ctx: Context&lt;GetTodos&gt;) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;()&gt; &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">todo_list</span> = &amp;ctx.accounts.todo_list;</span><br><span class="line">        msg!(<span class="string">&quot;Todo list: &#123;:?&#125;&quot;</span>, todo_list.items);</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(Accounts)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Initialize</span>&lt;<span class="symbol">&#x27;info</span>&gt; &#123;</span><br><span class="line">    <span class="meta">#[account(init, payer = user, space = 8 + 32 + 1024)]</span> <span class="comment">// Adjust space as needed</span></span><br><span class="line">    <span class="keyword">pub</span> todo_list: Account&lt;<span class="symbol">&#x27;info</span>, TodoList&gt;,</span><br><span class="line">    <span class="meta">#[account(mut)]</span></span><br><span class="line">    <span class="keyword">pub</span> user: Signer&lt;<span class="symbol">&#x27;info</span>&gt;,</span><br><span class="line">    <span class="meta">#[account(address = system_program::ID)]</span></span><br><span class="line">    <span class="keyword">pub</span> system_program: Program&lt;<span class="symbol">&#x27;info</span>, System&gt;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(Accounts)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">UpdateTodo</span>&lt;<span class="symbol">&#x27;info</span>&gt; &#123;</span><br><span class="line">    <span class="meta">#[account(mut)]</span></span><br><span class="line">    <span class="keyword">pub</span> todo_list: Account&lt;<span class="symbol">&#x27;info</span>, TodoList&gt;,</span><br><span class="line">    <span class="meta">#[account(mut)]</span></span><br><span class="line">    <span class="keyword">pub</span> user: Signer&lt;<span class="symbol">&#x27;info</span>&gt;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(Accounts)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">GetTodos</span>&lt;<span class="symbol">&#x27;info</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">pub</span> todo_list: Account&lt;<span class="symbol">&#x27;info</span>, TodoList&gt;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[account]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">TodoList</span> &#123;</span><br><span class="line">    <span class="keyword">pub</span> owner: Pubkey,</span><br><span class="line">    <span class="keyword">pub</span> items: <span class="type">Vec</span>&lt;TodoItem&gt;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(AnchorSerialize, AnchorDeserialize, Clone, Debug)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">TodoItem</span> &#123;</span><br><span class="line">    <span class="keyword">pub</span> description: <span class="type">String</span>,</span><br><span class="line">    <span class="keyword">pub</span> is_done: <span class="type">bool</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[error_code]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">enum</span> <span class="title class_">CustomError</span> &#123;</span><br><span class="line">    <span class="meta">#[msg(<span class="string">&quot;Unauthorized user.&quot;</span>)]</span></span><br><span class="line">    Unauthorized,</span><br><span class="line">    <span class="meta">#[msg(<span class="string">&quot;Invalid index.&quot;</span>)]</span></span><br><span class="line">    InvalidIndex,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/10/12/Solana%EF%BC%9A1.%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8&%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" rel="next" title="Solana：1.工具使用&环境搭建">
+                <i class="fa fa-chevron-left"></i> Solana：1.工具使用&环境搭建
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2024/10/13/Solana%EF%BC%9A3.%E8%B4%A6%E6%88%B7&%E7%AE%80%E5%8D%95%E7%9A%84%E4%BA%A4%E4%BA%92/" rel="prev" title="Solana：3.账户&简单的交互">
+                Solana：3.账户&简单的交互 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Native-Rust"><span class="nav-number">1.</span> <span class="nav-text">1. Native Rust</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Playground"><span class="nav-number">2.</span> <span class="nav-text">2. Playground</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Anchor"><span class="nav-number">3.</span> <span class="nav-text">3. Anchor</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E8%AF%BE%E5%90%8E%E4%BD%9C%E4%B8%9A"><span class="nav-number">4.</span> <span class="nav-text">4. 课后作业</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">0xduanpc</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
