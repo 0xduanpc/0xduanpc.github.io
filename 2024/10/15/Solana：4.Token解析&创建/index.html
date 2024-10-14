@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1. solana 上的代币 代币是代表对各种资产所有权的数字资产。代币化使得财产权的数字化成为可能，是管理可替代和不可替代资产的基本组成部分 可替代代币代表同类型和同价值的可互换和可分割资产（例如 USDC） 不可替代代币（NFT）代表不可分割资产的所有权（例如艺术品）    2. SPL(Solana Program Library) Token Program(代币程序) Mint Acco">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Solana：4.Token解析&amp;创建">
+<meta property="og:url" content="http://example.com/2024/10/15/Solana%EF%BC%9A4.Token%E8%A7%A3%E6%9E%90&%E5%88%9B%E5%BB%BA/index.html">
+<meta property="og:site_name" content="0xduanpc">
+<meta property="og:description" content="1. solana 上的代币 代币是代表对各种资产所有权的数字资产。代币化使得财产权的数字化成为可能，是管理可替代和不可替代资产的基本组成部分 可替代代币代表同类型和同价值的可互换和可分割资产（例如 USDC） 不可替代代币（NFT）代表不可分割资产的所有权（例如艺术品）    2. SPL(Solana Program Library) Token Program(代币程序) Mint Acco">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-10-14T17:12:18.794Z">
+<meta property="article:modified_time" content="2024-10-14T18:24:59.877Z">
+<meta property="article:author" content="0xduanpc">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2024/10/15/Solana：4.Token解析&创建/"/>
+
+
+
+
+
+  <title>Solana：4.Token解析&创建 | 0xduanpc</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">0xduanpc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">personal crypto notes</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/15/Solana%EF%BC%9A4.Token%E8%A7%A3%E6%9E%90&%E5%88%9B%E5%BB%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xduanpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Solana：4.Token解析&创建</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-10-15T01:12:18+08:00">
+                2024-10-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-solana-上的代币"><a href="#1-solana-上的代币" class="headerlink" title="1. solana 上的代币"></a>1. solana 上的代币</h1><ul>
+<li>代币是代表对各种资产所有权的数字资产。代币化使得财产权的数字化成为可能，是管理可替代和不可替代资产的基本组成部分<ul>
+<li>可替代代币代表同类型和同价值的可互换和可分割资产（例如 USDC）</li>
+<li>不可替代代币（NFT）代表不可分割资产的所有权（例如艺术品）</li>
+</ul>
+</li>
+</ul>
+<h1 id="2-SPL-Solana-Program-Library"><a href="#2-SPL-Solana-Program-Library" class="headerlink" title="2. SPL(Solana Program Library)"></a>2. SPL(Solana Program Library)</h1><ul>
+<li>Token Program(代币程序)</li>
+<li>Mint Account(铸币账户)</li>
+<li>Token Account(代币账户)</li>
+<li>Associated Token Account(关联代币账户)</li>
+</ul>
+<h2 id="2-1-Mint-Account-铸币账户"><a href="#2-1-Mint-Account-铸币账户" class="headerlink" title="2.1 Mint Account(铸币账户)"></a>2.1 Mint Account(铸币账户)</h2><p>Mint Account 是每个 SPL Token 的核心账户，负责代币的定义和管理。它包含了代币的全局属性，比如总供应量和小数位数。每个代币都由一个独立的 Mint Account 来表示。</p>
+<ul>
+<li>属性：<ul>
+<li>Decimals（小数位数）：定义代币的最小单位，通常是 0 到 9。</li>
+<li>Supply（供应量）：代币的当前总供应量。</li>
+<li>Mint Authority（铸币权限）：可以铸造新的代币的账户。</li>
+<li>Freeze Authority（冻结权限）：可以冻结或解冻代币账户的权限（可选）。</li>
+</ul>
+</li>
+<li>功能:<ul>
+<li>铸造代币：当 Mint Authority 执行铸币操作时，新的代币会增加到总供应量中，并分配给指定的 Token Account。</li>
+<li>销毁代币：减少总供应量。</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-2-Token-Account-代币账户"><a href="#2-2-Token-Account-代币账户" class="headerlink" title="2.2 Token Account(代币账户)"></a>2.2 Token Account(代币账户)</h2><p>Token Account 是用于持有特定 SPL Token 的账户。每个用户或者合约如果想要持有某种 SPL Token，必须有一个与该 Token 对应的 Token Account。不同的代币有不同的 Token Account，账户之间无法混用。</p>
+<ul>
+<li>属性：<ul>
+<li>Amount（余额）：账户中持有的代币数量。</li>
+<li>Owner（账户拥有者）：控制该账户的用户或合约地址。</li>
+<li>Mint（铸币账户关联）：该账户与哪个 Mint Account 相关联。</li>
+<li>Delegate（代理账户）：可以被授权管理该账户的其他账户（可选）。</li>
+<li>State（状态）：账户是否处于冻结状态。</li>
+</ul>
+</li>
+<li>功能：<ul>
+<li>接收和发送代币：Token Account 可以接受其他账户的代币，并通过转账指令将其发送给其他账户。</li>
+<li>代理权限管理：可以设置 Delegate 来授权第三方管理该账户的代币。</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-3-Associated-Token-Account-关联代币账户"><a href="#2-3-Associated-Token-Account-关联代币账户" class="headerlink" title="2.3 Associated Token Account(关联代币账户)"></a>2.3 Associated Token Account(关联代币账户)</h2><p>Associated Token Account(ATA)是 Token Account 的一种特殊类型，简化了 SPL Token 的账户管理。ATA 是自动与一个钱包地址绑定的账户，每个钱包地址和每个代币的 Mint 对应一个唯一的 Token Account，因此该账户类型极大简化了代币管理。</p>
+<ul>
+<li>特点：<ul>
+<li>唯一性：每个钱包地址只能有一个和某个 Mint 关联的 ATA。</li>
+<li>自动生成：Solana 提供了工具来自动生成 ATA，开发者不需要手动管理账户。</li>
+</ul>
+</li>
+<li>功能：<ul>
+<li>自动处理钱包地址与代币账户之间的关联，方便用户管理不同的 SPL Token。</li>
+</ul>
+</li>
+</ul>
+<h1 id="3-token-演示"><a href="#3-token-演示" class="headerlink" title="3. token 演示"></a>3. token 演示</h1><h2 id="3-1-创建-token"><a href="#3-1-创建-token" class="headerlink" title="3.1 创建 token"></a>3.1 创建 token</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ spl-token create-token</span><br><span class="line"></span><br><span class="line">Creating token C9XmyFCLqFeYJyqTonncHUPe7emM1siqGWjag2ZtA7iU under program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA</span><br><span class="line"></span><br><span class="line">Address:  C9XmyFCLqFeYJyqTonncHUPe7emM1siqGWjag2ZtA7iU</span><br><span class="line">Decimals:  9</span><br><span class="line"></span><br><span class="line">Signature: 58zDEMnzdCT8WA7AUkBk16d2eZS5yPJqz6bP8HHUoh6hNV5ikCB5T5SLxmwtvAGttp9uH6ePYMzFBZgfLgo6yMPe</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-2-查看-token-信息"><a href="#3-2-查看-token-信息" class="headerlink" title="3.2 查看 token 信息"></a>3.2 查看 token 信息</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ spl-token account-info --address C9XmyFCLqFeYJyqTonncHUPe7emM1siqGWjag2ZtA7iU</span><br><span class="line"></span><br><span class="line">SPL Token Mint</span><br><span class="line">  Address: C9XmyFCLqFeYJyqTonncHUPe7emM1siqGWjag2ZtA7iU</span><br><span class="line">  Program: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA</span><br><span class="line">  Supply: 0</span><br><span class="line">  Decimals: 9</span><br><span class="line">  Mint authority: HRzVQQmPPDEJAVQANt8PwVUi9d6oC3eJM4ig1E7n8rXz</span><br><span class="line">  Freeze authority: (not <span class="built_in">set</span>)</span><br></pre></td></tr></table></figure>
+
+<p>官方浏览器：<br><code>https://explorer.solana.com/address/C9XmyFCLqFeYJyqTonncHUPe7emM1siqGWjag2ZtA7iU?cluster=devnet</code><br>社区浏览器：<br><code>https://solana.fm/address/C9XmyFCLqFeYJyqTonncHUPe7emM1siqGWjag2ZtA7iU?cluster=devnet-solana</code></p>
+<h2 id="3-3-创建-token-账户"><a href="#3-3-创建-token-账户" class="headerlink" title="3.3 创建 token 账户"></a>3.3 创建 token 账户</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ spl-token create-account C9XmyFCLqFeYJyqTonncHUPe7emM1siqGWjag2ZtA7iU</span><br><span class="line"></span><br><span class="line">Creating account 8qLGkJkbsxyNbbX9EQwtiiU4y4PKxbXytR2fp5RMSCu</span><br><span class="line"></span><br><span class="line">Signature: 34vp5XM5zhLDSSz6dvzgYKy1YBbYtGvmamNbox6sCLhhUGLNrp4TzTCd2NSxervXPinZChFqVU7HwJjVGJhQdStj</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-4-通过其他私钥创建-token-account（非-ATA-账户）"><a href="#3-4-通过其他私钥创建-token-account（非-ATA-账户）" class="headerlink" title="3.4 通过其他私钥创建 token account（非 ATA 账户）"></a>3.4 通过其他私钥创建 token account（非 ATA 账户）</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ solana-keygen new --outfile /Users/duanpeichen/.config/solana/id_2.json</span><br><span class="line"></span><br><span class="line">$ spl-token create-account C9XmyFCLqFeYJyqTonncHUPe7emM1siqGWjag2ZtA7iU /Users/duanpeichen/.config/solana/id_2.json</span><br><span class="line"></span><br><span class="line">Creating account J1s3QBxTzfCG8qj5JT7r27yLuWjZgDDXXv6VwGyxFqf1</span><br><span class="line"></span><br><span class="line">Signature: QGeWafGvYbNodaFVCEMoQdz4rFgJipHBGCKbMMp5Ygkk774ygMgKYnTMceTFwY7wJJ1LEtVyR9fjycMSoyUm2rt</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-5-铸造代币"><a href="#3-5-铸造代币" class="headerlink" title="3.5 铸造代币"></a>3.5 铸造代币</h2><p>mint 到 ATA 账户：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ spl-token mint C9XmyFCLqFeYJyqTonncHUPe7emM1siqGWjag2ZtA7iU 100</span><br><span class="line"></span><br><span class="line">Minting 100 tokens</span><br><span class="line">  Token: C9XmyFCLqFeYJyqTonncHUPe7emM1siqGWjag2ZtA7iU</span><br><span class="line">  Recipient: 8qLGkJkbsxyNbbX9EQwtiiU4y4PKxbXytR2fp5RMSCu</span><br><span class="line"></span><br><span class="line">Signature: 3RhwFpjG35g1Kdj93M9weZ1AjMHw54evq5KPWW53G4AGwRVtovEdY41eK4GPmt9DG2xgzyndRpVQSZA95TKEAeNZ</span><br></pre></td></tr></table></figure>
+
+<p>mint 到非 ATA 账户：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ spl-token mint C9XmyFCLqFeYJyqTonncHUPe7emM1siqGWjag2ZtA7iU 100 -- J1s3QBxTzfCG8qj5JT7r27yLuWjZgDDXXv6VwGyxFqf1</span><br><span class="line"></span><br><span class="line">Minting 100 tokens</span><br><span class="line">  Token: C9XmyFCLqFeYJyqTonncHUPe7emM1siqGWjag2ZtA7iU</span><br><span class="line">  Recipient: J1s3QBxTzfCG8qj5JT7r27yLuWjZgDDXXv6VwGyxFqf1</span><br><span class="line"></span><br><span class="line">Signature: 25v5FcYvxtfTYYz8G83dsunZ5CXF6BF9VAHhmPS62Sactv6g4uSXfet79pxSyN1hW2SGEPNMmSuWfdxsiK4eNtiZ</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/10/13/Solana%EF%BC%9A3.%E8%B4%A6%E6%88%B7&%E7%AE%80%E5%8D%95%E7%9A%84%E4%BA%A4%E4%BA%92/" rel="next" title="Solana：3.账户&简单的交互">
+                <i class="fa fa-chevron-left"></i> Solana：3.账户&简单的交互
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-solana-%E4%B8%8A%E7%9A%84%E4%BB%A3%E5%B8%81"><span class="nav-number">1.</span> <span class="nav-text">1. solana 上的代币</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-SPL-Solana-Program-Library"><span class="nav-number">2.</span> <span class="nav-text">2. SPL(Solana Program Library)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-Mint-Account-%E9%93%B8%E5%B8%81%E8%B4%A6%E6%88%B7"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 Mint Account(铸币账户)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-Token-Account-%E4%BB%A3%E5%B8%81%E8%B4%A6%E6%88%B7"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 Token Account(代币账户)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-Associated-Token-Account-%E5%85%B3%E8%81%94%E4%BB%A3%E5%B8%81%E8%B4%A6%E6%88%B7"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 Associated Token Account(关联代币账户)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-token-%E6%BC%94%E7%A4%BA"><span class="nav-number">3.</span> <span class="nav-text">3. token 演示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E5%88%9B%E5%BB%BA-token"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 创建 token</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E6%9F%A5%E7%9C%8B-token-%E4%BF%A1%E6%81%AF"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 查看 token 信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E5%88%9B%E5%BB%BA-token-%E8%B4%A6%E6%88%B7"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 创建 token 账户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-%E9%80%9A%E8%BF%87%E5%85%B6%E4%BB%96%E7%A7%81%E9%92%A5%E5%88%9B%E5%BB%BA-token-account%EF%BC%88%E9%9D%9E-ATA-%E8%B4%A6%E6%88%B7%EF%BC%89"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 通过其他私钥创建 token account（非 ATA 账户）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-%E9%93%B8%E9%80%A0%E4%BB%A3%E5%B8%81"><span class="nav-number">3.5.</span> <span class="nav-text">3.5 铸造代币</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">0xduanpc</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
