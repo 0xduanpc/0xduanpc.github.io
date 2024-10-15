@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1. solana 项目结构 核心文件： processor.rs：核心业务逻辑，处理指令。 state.rs：定义账户的状态和扩展字段。 instruction.rs：定义各种代币操作的指令。 error.rs：定义了程序可能抛出的错误。 lib.rs：程序入口点，汇总各个模块。    2. 实现 Token 交互合约 创建 mint 账号 创建 ATA 后 Mint 代币  1234567#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Solana：5.SPLToken合约创建">
+<meta property="og:url" content="http://example.com/2024/10/15/Solana%EF%BC%9A5.SPLToken%E5%90%88%E7%BA%A6%E5%88%9B%E5%BB%BA/index.html">
+<meta property="og:site_name" content="0xduanpc">
+<meta property="og:description" content="1. solana 项目结构 核心文件： processor.rs：核心业务逻辑，处理指令。 state.rs：定义账户的状态和扩展字段。 instruction.rs：定义各种代币操作的指令。 error.rs：定义了程序可能抛出的错误。 lib.rs：程序入口点，汇总各个模块。    2. 实现 Token 交互合约 创建 mint 账号 创建 ATA 后 Mint 代币  1234567#">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-10-15T09:20:30.498Z">
+<meta property="article:modified_time" content="2024-10-15T17:22:41.149Z">
+<meta property="article:author" content="0xduanpc">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2024/10/15/Solana：5.SPLToken合约创建/"/>
+
+
+
+
+
+  <title>Solana：5.SPLToken合约创建 | 0xduanpc</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">0xduanpc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">personal crypto notes</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/15/Solana%EF%BC%9A5.SPLToken%E5%90%88%E7%BA%A6%E5%88%9B%E5%BB%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xduanpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Solana：5.SPLToken合约创建</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-10-15T17:20:30+08:00">
+                2024-10-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-solana-项目结构"><a href="#1-solana-项目结构" class="headerlink" title="1. solana 项目结构"></a>1. solana 项目结构</h1><ul>
+<li>核心文件：<ul>
+<li>processor.rs：核心业务逻辑，处理指令。</li>
+<li>state.rs：定义账户的状态和扩展字段。</li>
+<li>instruction.rs：定义各种代币操作的指令。</li>
+<li>error.rs：定义了程序可能抛出的错误。</li>
+<li>lib.rs：程序入口点，汇总各个模块。</li>
+</ul>
+</li>
+</ul>
+<h1 id="2-实现-Token-交互合约"><a href="#2-实现-Token-交互合约" class="headerlink" title="2. 实现 Token 交互合约"></a>2. 实现 Token 交互合约</h1><ul>
+<li>创建 mint 账号</li>
+<li>创建 ATA 后 Mint 代币</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编译</span></span><br><span class="line">$ cargo build-bpf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 部署</span></span><br><span class="line">$ solana program deploy target/sbf-solana-solana/release/token.so</span><br><span class="line"></span><br><span class="line">Program Id: ChqYMYvvc8T6Hfw6QxTHszKLmoSpyWxtc9Nim26hnUgz</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-1-合约部分"><a href="#2-1-合约部分" class="headerlink" title="2.1 合约部分"></a>2.1 合约部分</h2><h3 id="2-1-1-lib-rs"><a href="#2-1-1-lib-rs" class="headerlink" title="2.1.1 lib.rs"></a>2.1.1 lib.rs</h3><p>程序入口</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> borsh::&#123;BorshDeserialize, BorshSerialize&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(BorshSerialize, BorshDeserialize)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">enum</span> <span class="title class_">TokenInstruction</span> &#123;</span><br><span class="line">    CreateToken &#123; decimals: <span class="type">u8</span> &#125;,</span><br><span class="line">    Mint &#123; amount: <span class="type">u64</span> &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-1-2-instruction-rs"><a href="#2-1-2-instruction-rs" class="headerlink" title="2.1.2 instruction.rs"></a>2.1.2 instruction.rs</h3><p>合约操作指令</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> borsh::&#123;BorshDeserialize, BorshSerialize&#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(BorshSerialize, BorshDeserialize)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">enum</span> <span class="title class_">TokenInstruction</span> &#123;</span><br><span class="line">    CreateToken &#123; decimals: <span class="type">u8</span> &#125;,</span><br><span class="line">    Mint &#123; amount: <span class="type">u64</span> &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-1-3-processor-rs"><a href="#2-1-3-processor-rs" class="headerlink" title="2.1.3 processor.rs"></a>2.1.3 processor.rs</h3><p>合约的逻辑部分</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> solana_program::&#123;</span><br><span class="line">    account_info::&#123;next_account_info, AccountInfo&#125;,</span><br><span class="line">    entrypoint::&#123;<span class="keyword">self</span>, ProgramResult&#125;,</span><br><span class="line">    msg,</span><br><span class="line">    program::&#123;invoke, invoke_signed&#125;,</span><br><span class="line">    program_pack::Pack,</span><br><span class="line">    pubkey::Pubkey,</span><br><span class="line">    stake::instruction::initialize,</span><br><span class="line">    system_instruction,</span><br><span class="line">    sysvar::&#123;rent::Rent, Sysvar&#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">use</span> spl_token::&#123;</span><br><span class="line">    instruction::&#123;initialize_mint, mint_to&#125;,</span><br><span class="line">    state::Mint,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> crate::instruction::TokenInstruction;</span><br><span class="line"><span class="keyword">use</span> borsh::BorshDeserialize;</span><br><span class="line"></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">struct</span> <span class="title class_">Processor</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Processor</span> &#123;</span><br><span class="line">    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="title function_">process</span>(</span><br><span class="line">        program_id: &amp;Pubkey,</span><br><span class="line">        accounts: &amp;[AccountInfo],</span><br><span class="line">        instruction_data: &amp;[<span class="type">u8</span>],</span><br><span class="line">    ) <span class="punctuation">-&gt;</span> ProgramResult &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">instruction</span> = TokenInstruction::<span class="title function_ invoke__">try_from_slice</span>(instruction_data)?;</span><br><span class="line">        <span class="keyword">match</span> instruction &#123;</span><br><span class="line">            TokenInstruction::CreateToken &#123; decimals &#125; =&gt; <span class="keyword">Self</span>::<span class="title function_ invoke__">create_token</span>(accounts, decimals),</span><br><span class="line">            TokenInstruction::Mint &#123; amount &#125; =&gt; <span class="keyword">Self</span>::<span class="title function_ invoke__">mint_token</span>(accounts, amount),</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">create_token</span>(accounts: &amp;[AccountInfo], decimals: <span class="type">u8</span>) <span class="punctuation">-&gt;</span> ProgramResult &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">account_iter</span> = &amp;<span class="keyword">mut</span> accounts.<span class="title function_ invoke__">iter</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">mint_account</span> = <span class="title function_ invoke__">next_account_info</span>(account_iter)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">mint_authority</span> = <span class="title function_ invoke__">next_account_info</span>(account_iter)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">payer</span> = <span class="title function_ invoke__">next_account_info</span>(account_iter)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">rent_sysvar</span> = <span class="title function_ invoke__">next_account_info</span>(account_iter)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">system_program</span> = <span class="title function_ invoke__">next_account_info</span>(account_iter)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">token_program</span> = <span class="title function_ invoke__">next_account_info</span>(account_iter)?;</span><br><span class="line"></span><br><span class="line">        msg!(<span class="string">&quot;Creating mint account...&quot;</span>);</span><br><span class="line">        msg!(<span class="string">&quot;Mint account is &#123;&#125;&quot;</span>, mint_account.key);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">create_account_ix</span> = &amp;system_instruction::<span class="title function_ invoke__">create_account</span>(</span><br><span class="line">            payer.key,</span><br><span class="line">            mint_account.key,</span><br><span class="line">            (Rent::<span class="title function_ invoke__">get</span>()?).<span class="title function_ invoke__">minimum_balance</span>(Mint::LEN),</span><br><span class="line">            Mint::LEN <span class="keyword">as</span> <span class="type">u64</span>,</span><br><span class="line">            token_program.key,</span><br><span class="line">        );</span><br><span class="line">        <span class="title function_ invoke__">invoke</span>(</span><br><span class="line">            create_account_ix,</span><br><span class="line">            &amp;[</span><br><span class="line">                mint_account.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                payer.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                system_program.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                token_program.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">            ],</span><br><span class="line">        )?;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">mint_init_ix</span> = &amp;<span class="title function_ invoke__">initialize_mint</span>(</span><br><span class="line">            token_program.key,</span><br><span class="line">            mint_account.key,</span><br><span class="line">            mint_authority.key,</span><br><span class="line">            <span class="literal">None</span>,</span><br><span class="line">            decimals,</span><br><span class="line">        )?;</span><br><span class="line"></span><br><span class="line">        msg!(<span class="string">&quot;initialize_mint account...&quot;</span>);</span><br><span class="line">        <span class="title function_ invoke__">invoke_signed</span>(</span><br><span class="line">            mint_init_ix,</span><br><span class="line">            &amp;[</span><br><span class="line">                mint_account.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                rent_sysvar.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                token_program.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                mint_authority.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">            ],</span><br><span class="line">            &amp;[],</span><br><span class="line">        )?;</span><br><span class="line"></span><br><span class="line">        msg!(<span class="string">&quot;SPL Token Mint create success!&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">mint_token</span>(accounts: &amp;[AccountInfo], amount: <span class="type">u64</span>) <span class="punctuation">-&gt;</span> ProgramResult &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">account_iter</span> = &amp;<span class="keyword">mut</span> accounts.<span class="title function_ invoke__">iter</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">mint_account</span> = <span class="title function_ invoke__">next_account_info</span>(account_iter)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">associated_token_account</span> = <span class="title function_ invoke__">next_account_info</span>(account_iter)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">rent_sysvar</span> = <span class="title function_ invoke__">next_account_info</span>(account_iter)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">payer</span> = <span class="title function_ invoke__">next_account_info</span>(account_iter)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">system_program</span> = <span class="title function_ invoke__">next_account_info</span>(account_iter)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">token_program</span> = <span class="title function_ invoke__">next_account_info</span>(account_iter)?;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">associated_token_program</span> = <span class="title function_ invoke__">next_account_info</span>(account_iter)?;</span><br><span class="line"></span><br><span class="line">        msg!(<span class="string">&quot;ATA is: &#123;:?&#125;&quot;</span>, associated_token_account);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> associated_token_account.<span class="title function_ invoke__">lamports</span>() == <span class="number">0</span> &#123;</span><br><span class="line">            msg!(<span class="string">&quot;Creating associated token account...&quot;</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">let</span> <span class="variable">create_ata_ix</span> =</span><br><span class="line">                &amp;spl_associated_token_account::instruction::<span class="title function_ invoke__">create_associated_token_account</span>(</span><br><span class="line">                    payer.key,</span><br><span class="line">                    payer.key,</span><br><span class="line">                    mint_account.key,</span><br><span class="line">                    token_program.key,</span><br><span class="line">                );</span><br><span class="line"></span><br><span class="line">            <span class="title function_ invoke__">invoke</span>(</span><br><span class="line">                create_ata_ix,</span><br><span class="line">                &amp;[</span><br><span class="line">                    payer.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                    associated_token_account.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                    mint_account.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                    system_program.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                    token_program.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                    rent_sysvar.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                    associated_token_program.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                ],</span><br><span class="line">            )?;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        msg!(<span class="string">&quot;Minting &#123;&#125; tokens to ata...&quot;</span>, amount);</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">mint_ix</span> = &amp;<span class="title function_ invoke__">mint_to</span>(</span><br><span class="line">            token_program.key,</span><br><span class="line">            mint_account.key,</span><br><span class="line">            associated_token_account.key,</span><br><span class="line">            payer.key,</span><br><span class="line">            &amp;[payer.key],</span><br><span class="line">            amount,</span><br><span class="line">        )?;</span><br><span class="line"></span><br><span class="line">        <span class="title function_ invoke__">invoke</span>(</span><br><span class="line">            mint_ix,</span><br><span class="line">            &amp;[</span><br><span class="line">                mint_account.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                payer.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                associated_token_account.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">                token_program.<span class="title function_ invoke__">clone</span>(),</span><br><span class="line">            ],</span><br><span class="line">        )?;</span><br><span class="line">        msg!(<span class="string">&quot;Tokens Minted to ata success&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-1-4-error-rs"><a href="#2-1-4-error-rs" class="headerlink" title="2.1.4 error.rs"></a>2.1.4 error.rs</h3><p>可能抛出的错误，此处为空</p>
+<h3 id="2-1-5-state-rs"><a href="#2-1-5-state-rs" class="headerlink" title="2.1.5 state.rs"></a>2.1.5 state.rs</h3><p>状态和扩展字段，此处为空</p>
+<h3 id="2-1-6-Cargo-toml"><a href="#2-1-6-Cargo-toml" class="headerlink" title="2.1.6 Cargo.toml"></a>2.1.6 Cargo.toml</h3><figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[package]</span></span><br><span class="line"><span class="attr">name</span> = <span class="string">&quot;token&quot;</span></span><br><span class="line"><span class="attr">version</span> = <span class="string">&quot;0.1.0&quot;</span></span><br><span class="line"><span class="attr">edition</span> = <span class="string">&quot;2021&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="section">[dependencies]</span></span><br><span class="line"><span class="attr">borsh</span> = <span class="string">&quot;1.5.1&quot;</span></span><br><span class="line"><span class="attr">solana-program</span> = <span class="string">&quot;2.0.13&quot;</span></span><br><span class="line"><span class="attr">spl-associated-token-account</span> = &#123;version = <span class="string">&quot;5.0.1&quot;</span>, features = [<span class="string">&quot;no-entrypoint&quot;</span>]&#125;</span><br><span class="line"><span class="attr">spl-token</span> = &#123;version = <span class="string">&quot;6.0.0&quot;</span>, features = [<span class="string">&quot;no-entrypoint&quot;</span>]&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">[lib]</span></span><br><span class="line"><span class="comment"># 为了可以编译出跨平台lib文件</span></span><br><span class="line"><span class="attr">crate-type</span> = [<span class="string">&quot;cdylib&quot;</span>, <span class="string">&quot;lib&quot;</span>]</span><br><span class="line"></span><br><span class="line"><span class="section">[features]</span></span><br><span class="line"><span class="comment"># 忽略入口文件，否则编译时会报错</span></span><br><span class="line"><span class="attr">no-entrypoint</span> = []</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-2-client"><a href="#2-2-client" class="headerlink" title="2.2 client"></a>2.2 client</h2><h3 id="2-2-1-main-rs"><a href="#2-2-1-main-rs" class="headerlink" title="2.2.1 main.rs"></a>2.2.1 main.rs</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::<span class="type">str</span>::FromStr;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> borsh::&#123;BorshDeserialize, BorshSerialize&#125;;</span><br><span class="line"><span class="keyword">use</span> solana_client::rpc_client::RpcClient;</span><br><span class="line"><span class="keyword">use</span> solana_sdk::&#123;</span><br><span class="line">    client,</span><br><span class="line">    feature_set::instructions_sysvar_owned_by_sysvar,</span><br><span class="line">    instruction::&#123;AccountMeta, Instruction&#125;,</span><br><span class="line">    pubkey::Pubkey,</span><br><span class="line">    signature::&#123;read_keypair_file, Keypair&#125;,</span><br><span class="line">    signer::Signer,</span><br><span class="line">    sysvar,</span><br><span class="line">    transaction::&#123;<span class="keyword">self</span>, Transaction&#125;,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">use</span> spl_associated_token_account::get_associated_token_address;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Hello, world!&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[derive(BorshSerialize, BorshDeserialize)]</span></span><br><span class="line"><span class="keyword">pub</span> <span class="keyword">enum</span> <span class="title class_">TokenInstruction</span> &#123;</span><br><span class="line">    CreateToken &#123; decimals: <span class="type">u8</span> &#125;,</span><br><span class="line">    Mint &#123; amount: <span class="type">u64</span> &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[test]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">test_fn</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rpc_client</span> = RpcClient::<span class="title function_ invoke__">new</span>(<span class="string">&quot;https://api.devnet.solana.com&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">payer</span> = <span class="title function_ invoke__">read_keypair_file</span>(<span class="string">&quot;/Users/duanpeichen/.config/solana/id.json&quot;</span>).<span class="title function_ invoke__">expect</span>(<span class="string">&quot;failed&quot;</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">program_id</span> = Pubkey::<span class="title function_ invoke__">from_str</span>(<span class="string">&quot;ChqYMYvvc8T6Hfw6QxTHszKLmoSpyWxtc9Nim26hnUgz&quot;</span>).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">mint_account</span> = Keypair::<span class="title function_ invoke__">new</span>();</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;mint_account is &#123;:?&#125;&quot;</span>, mint_account.<span class="title function_ invoke__">pubkey</span>().<span class="title function_ invoke__">to_string</span>());</span><br><span class="line"></span><br><span class="line">    _ = <span class="title function_ invoke__">create_token</span>(</span><br><span class="line">        &amp;rpc_client,</span><br><span class="line">        &amp;program_id,</span><br><span class="line">        &amp;payer,</span><br><span class="line">        &amp;mint_account,</span><br><span class="line">        &amp;payer.<span class="title function_ invoke__">pubkey</span>(),</span><br><span class="line">        <span class="number">6</span>,</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    _ = <span class="title function_ invoke__">mint</span>(&amp;rpc_client, &amp;program_id, &amp;payer, &amp;mint_account, <span class="number">100_000_000</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">create_token</span>(</span><br><span class="line">    rpc_client: &amp;RpcClient,</span><br><span class="line">    program_id: &amp;Pubkey,</span><br><span class="line">    payer: &amp;Keypair,</span><br><span class="line">    mint_account: &amp;Keypair,</span><br><span class="line">    mint_authority: &amp;Pubkey,</span><br><span class="line">    decimals: <span class="type">u8</span>,</span><br><span class="line">) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;(), <span class="type">Box</span>&lt;<span class="keyword">dyn</span> std::error::Error&gt;&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">instruction_data</span> = borsh::<span class="title function_ invoke__">to_vec</span>(&amp;TokenInstruction::CreateToken &#123; decimals &#125;).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">accounts</span> = <span class="built_in">vec!</span>[</span><br><span class="line">        AccountMeta::<span class="title function_ invoke__">new</span>(mint_account.<span class="title function_ invoke__">pubkey</span>(), <span class="literal">true</span>),</span><br><span class="line">        AccountMeta::<span class="title function_ invoke__">new_readonly</span>(*mint_authority, <span class="literal">false</span>),</span><br><span class="line">        AccountMeta::<span class="title function_ invoke__">new_readonly</span>(payer.<span class="title function_ invoke__">pubkey</span>(), <span class="literal">false</span>),</span><br><span class="line">        AccountMeta::<span class="title function_ invoke__">new_readonly</span>(sysvar::rent::<span class="title function_ invoke__">id</span>(), <span class="literal">false</span>),</span><br><span class="line">        AccountMeta::<span class="title function_ invoke__">new_readonly</span>(solana_sdk::system_program::<span class="title function_ invoke__">id</span>(), <span class="literal">false</span>),</span><br><span class="line">        AccountMeta::<span class="title function_ invoke__">new_readonly</span>(spl_token::<span class="title function_ invoke__">id</span>(), <span class="literal">false</span>),</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">token_instruction</span> = Instruction &#123;</span><br><span class="line">        program_id: *program_id,</span><br><span class="line">        accounts,</span><br><span class="line">        data: instruction_data,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">latest_blockhash</span> = rpc_client.<span class="title function_ invoke__">get_latest_blockhash</span>()?;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">tx</span> = Transaction::<span class="title function_ invoke__">new_signed_with_payer</span>(</span><br><span class="line">        &amp;[token_instruction],</span><br><span class="line">        <span class="title function_ invoke__">Some</span>(&amp;payer.<span class="title function_ invoke__">pubkey</span>()),</span><br><span class="line">        &amp;[payer, mint_account],</span><br><span class="line">        latest_blockhash,</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r</span> = rpc_client.<span class="title function_ invoke__">send_and_confirm_transaction</span>(&amp;tx)?;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, r);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;create token success&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">mint</span>(</span><br><span class="line">    rpc_client: &amp;RpcClient,</span><br><span class="line">    program_id: &amp;Pubkey,</span><br><span class="line">    payer: &amp;Keypair,</span><br><span class="line">    mint_account: &amp;Keypair,</span><br><span class="line">    amounts: <span class="type">u64</span>,</span><br><span class="line">) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;(), <span class="type">Box</span>&lt;<span class="keyword">dyn</span> std::error::Error&gt;&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">ata</span> = <span class="title function_ invoke__">get_associated_token_address</span>(&amp;payer.<span class="title function_ invoke__">pubkey</span>(), &amp;mint_account.<span class="title function_ invoke__">pubkey</span>());</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;ata is &#123;:?&#125;&quot;</span>, ata);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">instruction_data</span> = borsh::<span class="title function_ invoke__">to_vec</span>(&amp;TokenInstruction::Mint &#123; amount: amounts &#125;).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">accounts</span> = <span class="built_in">vec!</span>[</span><br><span class="line">        AccountMeta::<span class="title function_ invoke__">new</span>(mint_account.<span class="title function_ invoke__">pubkey</span>(), <span class="literal">true</span>),</span><br><span class="line">        AccountMeta::<span class="title function_ invoke__">new</span>(ata, <span class="literal">false</span>),</span><br><span class="line">        AccountMeta::<span class="title function_ invoke__">new_readonly</span>(sysvar::rent::<span class="title function_ invoke__">id</span>(), <span class="literal">false</span>),</span><br><span class="line">        AccountMeta::<span class="title function_ invoke__">new</span>(payer.<span class="title function_ invoke__">pubkey</span>(), <span class="literal">true</span>),</span><br><span class="line">        AccountMeta::<span class="title function_ invoke__">new_readonly</span>(solana_sdk::system_program::<span class="title function_ invoke__">id</span>(), <span class="literal">false</span>),</span><br><span class="line">        AccountMeta::<span class="title function_ invoke__">new_readonly</span>(spl_token::<span class="title function_ invoke__">id</span>(), <span class="literal">false</span>),</span><br><span class="line">        AccountMeta::<span class="title function_ invoke__">new_readonly</span>(spl_associated_token_account::<span class="title function_ invoke__">id</span>(), <span class="literal">false</span>),</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">token_instruction</span> = Instruction &#123;</span><br><span class="line">        program_id: *program_id,</span><br><span class="line">        accounts,</span><br><span class="line">        data: instruction_data,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">latest_blockhash</span> = rpc_client.<span class="title function_ invoke__">get_latest_blockhash</span>()?;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">tx</span> = Transaction::<span class="title function_ invoke__">new_signed_with_payer</span>(</span><br><span class="line">        &amp;[token_instruction],</span><br><span class="line">        <span class="title function_ invoke__">Some</span>(&amp;payer.<span class="title function_ invoke__">pubkey</span>()),</span><br><span class="line">        &amp;[payer, mint_account],</span><br><span class="line">        latest_blockhash,</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">r</span> = rpc_client.<span class="title function_ invoke__">send_and_confirm_transaction</span>(&amp;tx)?;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, r);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;mint success success!&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-2-Cargo-toml"><a href="#2-2-2-Cargo-toml" class="headerlink" title="2.2.2 Cargo.toml"></a>2.2.2 Cargo.toml</h3><figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[package]</span></span><br><span class="line"><span class="attr">name</span> = <span class="string">&quot;cli&quot;</span></span><br><span class="line"><span class="attr">version</span> = <span class="string">&quot;0.1.0&quot;</span></span><br><span class="line"><span class="attr">edition</span> = <span class="string">&quot;2021&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="section">[dependencies]</span></span><br><span class="line"><span class="attr">borsh</span> = <span class="string">&quot;1.5.1&quot;</span></span><br><span class="line"><span class="attr">solana-client</span> = <span class="string">&quot;2.0.13&quot;</span></span><br><span class="line"><span class="attr">solana-program</span> = <span class="string">&quot;2.0.13&quot;</span></span><br><span class="line"><span class="attr">solana-sdk</span> = <span class="string">&quot;2.0.13&quot;</span></span><br><span class="line"><span class="attr">spl-associated-token-account</span> = <span class="string">&quot;5.0.1&quot;</span></span><br><span class="line"><span class="attr">spl-associated-token-account-client</span> = <span class="string">&quot;1.0.0&quot;</span></span><br><span class="line"><span class="attr">spl-token</span> = <span class="string">&quot;6.0.0&quot;</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/10/15/Solana%EF%BC%9A4.Token%E8%A7%A3%E6%9E%90&%E5%88%9B%E5%BB%BA/" rel="next" title="Solana：4.Token解析&创建">
+                <i class="fa fa-chevron-left"></i> Solana：4.Token解析&创建
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-solana-%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">1. solana 项目结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%AE%9E%E7%8E%B0-Token-%E4%BA%A4%E4%BA%92%E5%90%88%E7%BA%A6"><span class="nav-number">2.</span> <span class="nav-text">2. 实现 Token 交互合约</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E5%90%88%E7%BA%A6%E9%83%A8%E5%88%86"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 合约部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-1-lib-rs"><span class="nav-number">2.1.1.</span> <span class="nav-text">2.1.1 lib.rs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-2-instruction-rs"><span class="nav-number">2.1.2.</span> <span class="nav-text">2.1.2 instruction.rs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-3-processor-rs"><span class="nav-number">2.1.3.</span> <span class="nav-text">2.1.3 processor.rs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-4-error-rs"><span class="nav-number">2.1.4.</span> <span class="nav-text">2.1.4 error.rs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-5-state-rs"><span class="nav-number">2.1.5.</span> <span class="nav-text">2.1.5 state.rs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-6-Cargo-toml"><span class="nav-number">2.1.6.</span> <span class="nav-text">2.1.6 Cargo.toml</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-client"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 client</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-main-rs"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1 main.rs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-Cargo-toml"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2.2 Cargo.toml</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">0xduanpc</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

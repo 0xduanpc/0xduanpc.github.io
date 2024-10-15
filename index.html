@@ -229,6 +229,146 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/15/Solana%EF%BC%9A5.SPLToken%E5%90%88%E7%BA%A6%E5%88%9B%E5%BB%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xduanpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/10/15/Solana%EF%BC%9A5.SPLToken%E5%90%88%E7%BA%A6%E5%88%9B%E5%BB%BA/" itemprop="url">Solana：5.SPLToken合约创建</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-10-15T17:20:30+08:00">
+                2024-10-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          1. solana 项目结构
+核心文件：
+processor.rs：核心业务逻辑，处理指令。
+state.rs：定义账户的状态和扩展字段。
+instruction.rs：定义各种代币操作的指令。
+error.rs：定义了程序可能抛出的错误。
+lib.rs：程序入口点，汇总各个模块。
+
+
+
+2. 实现 Token 交互合约
+创建 mint 账号
+创建 ATA 后 Mint 代币
+
+1234567# 编译$ cargo build-bpf# 部署$ solana program deploy target/sbf-solana-solana/release/token.soProgram Id: 
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2024/10/15/Solana%EF%BC%9A5.SPLToken%E5%90%88%E7%BA%A6%E5%88%9B%E5%BB%BA/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/15/Solana%EF%BC%9A4.Token%E8%A7%A3%E6%9E%90&%E5%88%9B%E5%BB%BA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1466,144 +1606,6 @@ Rust 的迭代器：
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/03/Rust%E8%BF%9B%E9%98%B6%EF%BC%9A7.%E9%97%AD%E5%8C%85/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xduanpc">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2024/10/03/Rust%E8%BF%9B%E9%98%B6%EF%BC%9A7.%E9%97%AD%E5%8C%85/" itemprop="url">Rust进阶：7.闭包</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-10-03T23:09:14+08:00">
-                2024-10-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          1. 闭包介绍1.1 什么是闭包
-闭包是一个可以捕获所在环境中的变量的匿名函数
-在 Rust 中，闭包通过||符号定义，可以像普通函数一样调用，但与函数不同，闭包可以访问外部作用域的变量
-
-1.2 闭包的特点
-可以捕获周围作用域的变量
-支持作为参数传递给其他函数
-可以返回闭包作为函数的返回值
-类型推断：闭包通常通过类型推断来确定参数和返回值的类型
-
-2. 闭包的定义2.1 闭包的语法123let closure_name = |参数列表| -&gt; 返回类型 &#123;    代码块&#125;;
-
-2.2 简单示例12let add_one = |x: i32| -&gt; i32 &#
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2024/10/03/Rust%E8%BF%9B%E9%98%B6%EF%BC%9A7.%E9%97%AD%E5%8C%85/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1654,7 +1656,7 @@ Rust 的迭代器：
               
                 <a href="/archives/%20%7C%7C%20archive">
               
-                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-count">53</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

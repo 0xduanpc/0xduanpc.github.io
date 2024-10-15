@@ -229,6 +229,132 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/22/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A13.%E5%B8%B8%E8%A7%81%E9%9B%86%E5%90%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xduanpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/09/22/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A13.%E5%B8%B8%E8%A7%81%E9%9B%86%E5%90%88/" itemprop="url">Rust基础：13.常见集合</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-09-22T23:16:00+08:00">
+                2024-09-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          1. Vec1.1 Vec 的基本操作123456789101112131415161718192021222324252627282930313233343536fn vec_study() &#123;    // 创建一个空的vec    let mut v: Vec&lt;i32&gt; = Vec::new();    println!(&quot;v: &#123;:?&#125;&quot;, v);    // 使用宏来创建vec    let mut v = vec![1, 2, 3, 4, 5];    println!(&quot;v: &#123;:?&#125;&qu
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2024/09/22/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A13.%E5%B8%B8%E8%A7%81%E9%9B%86%E5%90%88/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/22/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A12.%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1375,150 +1501,6 @@ let s: &amp;str = &quot;hello world&quot;;&amp;str是一种不可变引用，没
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/17/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A3.%E5%87%BD%E6%95%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xduanpc">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2024/09/17/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A3.%E5%87%BD%E6%95%B0/" itemprop="url">Rust基础：3.函数</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-09-17T02:40:35+08:00">
-                2024-09-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          1. 函数组成
-声明函数关键字 fn
-参数名 add()
-参数 i 和 j 的参数类型 i32
-返回值类型 i32
-函数体 i + j
-
-123fn add(i: i32, j: i32) -&gt; i32 &#123;    i + j;&#125;
-
-rust 不关心调用前还是调用后声明的函数
-2. 函数名
-开头是字母或下划线，后面是数字、下划线、字母
-不能仅有下划线
-函数名和变量名使用蛇形命名法
-
-3. 函数返回
-return+分号，或没有 return+没有分号
-
-123456fn add(i: i32, j: i32) -&gt; i32 &#123;    i + j;&#125
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2024/09/17/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A3.%E5%87%BD%E6%95%B0/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1569,7 +1551,7 @@ return+分号，或没有 return+没有分号
               
                 <a href="/archives/%20%7C%7C%20archive">
               
-                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-count">53</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
