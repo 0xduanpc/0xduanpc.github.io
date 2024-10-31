@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="零开销内存回收的一种高效实现方式处理 Rust 中内存释放问题，确保内存安全，防止数据竞争 堆上的变量赋值给其他变量时，所有权也会转移 1. 所有权规则 每一个值都有一个所有者 在任意时刻，值只能有一个所有者 当所有者离开作用域，值会被丢弃  1234567891011fn feature()&#123;    &#x2F;&#x2F; String    &#x2F;&#x2F; let s1 &#x3D; String::from(&amp;quot">
+<meta name="description" content="1.anchor入门&amp;账户的概念和用法 2.anchor框架实战">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Rust基础：6.ownership所有权">
-<meta property="og:url" content="http://example.com/2024/09/18/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A6.ownership%20%E6%89%80%E6%9C%89%E6%9D%83/index.html">
+<meta property="og:title" content="Anchor基础汇总">
+<meta property="og:url" content="http://example.com/2024/10/31/Anchor%E5%9F%BA%E7%A1%80%E6%B1%87%E6%80%BB/index.html">
 <meta property="og:site_name" content="0xduanpc">
-<meta property="og:description" content="零开销内存回收的一种高效实现方式处理 Rust 中内存释放问题，确保内存安全，防止数据竞争 堆上的变量赋值给其他变量时，所有权也会转移 1. 所有权规则 每一个值都有一个所有者 在任意时刻，值只能有一个所有者 当所有者离开作用域，值会被丢弃  1234567891011fn feature()&#123;    &#x2F;&#x2F; String    &#x2F;&#x2F; let s1 &#x3D; String::from(&amp;quot">
+<meta property="og:description" content="1.anchor入门&amp;账户的概念和用法 2.anchor框架实战">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2024-09-18T09:42:10.240Z">
-<meta property="article:modified_time" content="2024-09-23T16:53:51.915Z">
+<meta property="article:published_time" content="2024-10-31T07:58:02.174Z">
+<meta property="article:modified_time" content="2024-10-31T07:59:37.924Z">
 <meta property="article:author" content="0xduanpc">
 <meta name="twitter:card" content="summary">
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/2024/09/18/Rust基础：6.ownership 所有权/"/>
+  <link rel="canonical" href="http://example.com/2024/10/31/Anchor基础汇总/"/>
 
 
 
 
 
-  <title>Rust基础：6.ownership所有权 | 0xduanpc</title>
+  <title>Anchor基础汇总 | 0xduanpc</title>
   
 
 
@@ -232,7 +232,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/18/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A6.ownership%20%E6%89%80%E6%9C%89%E6%9D%83/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/10/31/Anchor%E5%9F%BA%E7%A1%80%E6%B1%87%E6%80%BB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -249,7 +249,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Rust基础：6.ownership所有权</h1>
+          <h1 class="post-title" itemprop="name headline">Anchor基础汇总</h1>
         
 
         <div class="post-meta">
@@ -261,8 +261,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-09-18T17:42:10+08:00">
-                2024-09-18
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-10-31T15:58:02+08:00">
+                2024-10-31
               </time>
             
 
@@ -299,23 +299,10 @@
       
 
       
-        <p>零开销内存回收的一种高效实现方式<br>处理 Rust 中内存释放问题，确保内存安全，防止数据竞争</p>
-<p>堆上的变量赋值给其他变量时，所有权也会转移</p>
-<h1 id="1-所有权规则"><a href="#1-所有权规则" class="headerlink" title="1. 所有权规则"></a>1. 所有权规则</h1><ul>
-<li>每一个值都有一个所有者</li>
-<li>在任意时刻，值只能有一个所有者</li>
-<li>当所有者离开作用域，值会被丢弃</li>
+        <ul>
+<li><a href="/2024/10/23/Anchor%EF%BC%9A1.anchor%E5%85%A5%E9%97%A8&%E8%B4%A6%E6%88%B7%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E7%94%A8%E6%B3%95/" title="Anchor：1.anchor入门&amp;账户的概念和用法">1.anchor入门&amp;账户的概念和用法</a></li>
+<li><a href="/2024/10/28/Anchor%EF%BC%9A2.anchor%E6%A1%86%E6%9E%B6%E5%AE%9E%E6%88%98/" title="Anchor：2.anchor框架实战">2.anchor框架实战</a></li>
 </ul>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">feature</span>()&#123;</span><br><span class="line">    <span class="comment">// String</span></span><br><span class="line">    <span class="comment">// let s1 = String::from(&quot;hello&quot;);</span></span><br><span class="line">    <span class="comment">// let s2 = s1;</span></span><br><span class="line">    <span class="comment">// println!(&quot;s1: &#123;&#125;&quot;, s1); // 报错：borrow of moved value: `s1`</span></span><br><span class="line">    <span class="comment">// scope外面也访问不到</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">s2</span> = s1;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="2-课后习题"><a href="#2-课后习题" class="headerlink" title="2. 课后习题"></a>2. 课后习题</h1><p>用 2 种方式实现，确保<code>s1</code> <code>s2</code>都能正常打印出来</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// <span class="doctag">TODO:</span></span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">take_ownership</span>(s: <span class="type">String</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;</span><br><span class="line">    s</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">s2</span> = <span class="title function_ invoke__">take_ownership</span>(s1);</span><br><span class="line"><span class="comment">//如下代码不能修改</span></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;s1: &#123;&#125;&quot;</span>, s1);</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;s2: &#123;&#125;&quot;</span>, s2);</span><br></pre></td></tr></table></figure>
-
-<p>方法一：复制堆栈内容</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">s2</span> = <span class="title function_ invoke__">take_ownership</span>(s1.<span class="title function_ invoke__">clone</span>());</span><br></pre></td></tr></table></figure>
-
-<p>方法二：引用</p>
-<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">take_ownership</span>(s: &amp;<span class="type">String</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">String</span> &#123;</span><br><span class="line">    s</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">s1</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">s2</span> = <span class="title function_ invoke__">take_ownership</span>(&amp;s1);</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -340,8 +327,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2024/09/17/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A5.%E5%9F%BA%E7%A1%80%E7%B1%BB%E5%9E%8B/" rel="next" title="Rust基础：5.基础类型">
-                <i class="fa fa-chevron-left"></i> Rust基础：5.基础类型
+              <a href="/2024/10/28/Anchor%EF%BC%9A2.anchor%E6%A1%86%E6%9E%B6%E5%AE%9E%E6%88%98/" rel="next" title="Anchor：2.anchor框架实战">
+                <i class="fa fa-chevron-left"></i> Anchor：2.anchor框架实战
               </a>
             
           </div>
@@ -349,10 +336,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2024/09/18/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A7.%E5%BC%95%E7%94%A8/" rel="prev" title="Rust基础：7.引用">
-                Rust基础：7.引用 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -404,17 +387,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -456,22 +430,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E6%89%80%E6%9C%89%E6%9D%83%E8%A7%84%E5%88%99"><span class="nav-number">1.</span> <span class="nav-text">1. 所有权规则</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E8%AF%BE%E5%90%8E%E4%B9%A0%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">2. 课后习题</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
