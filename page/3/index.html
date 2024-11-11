@@ -229,6 +229,137 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/25/Rust%E8%BF%9B%E9%98%B6%EF%BC%9A3.%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="0xduanpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2024/09/25/Rust%E8%BF%9B%E9%98%B6%EF%BC%9A3.%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" itemprop="url">Rust进阶：3.生命周期</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-09-25T22:08:14+08:00">
+                2024-09-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          生命周期帮助编译器处理悬垂指针问题
+1. 创建生命周期&#39;a表示返回值的生命周期与输入参数的生命周期相同
+1234567fn longest&lt;&#x27;a&gt;(x: &amp;&#x27;a str, y: &amp;&#x27;a str) -&gt; &amp;&#x27;a str &#123;    if x.len() &gt; y.len() &#123;        x    &#125; else &#123;        y    &#125;&#125;
+
+2. 生命周期类别fn
+123fn example&lt;&#x27;a&gt;(input: 
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2024/09/25/Rust%E8%BF%9B%E9%98%B6%EF%BC%9A3.%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/25/Rust%E8%BF%9B%E9%98%B6%EF%BC%9A2.%E6%B3%9B%E5%9E%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1400,135 +1531,6 @@ impl 的 method 遵从 snake_case（小写）
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/20/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A9.%E5%AD%97%E7%AC%A6%E4%B8%B2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="0xduanpc">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2024/09/20/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A9.%E5%AD%97%E7%AC%A6%E4%B8%B2/" itemprop="url">Rust基础：9.字符串</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-09-20T01:38:06+08:00">
-                2024-09-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          rust 的字符串使用 utf-8 编码，也就是字符串中的字符所占的字节数是变化的(1 - 4)
-1. 字符串字面值编译时就知道其内容，最终字面值文本被直接硬编码进可执行文件
-let s: &amp;str = &quot;hello world&quot;;&amp;str是一种不可变引用，没有所有权，str类型是硬编码进可执行文件，也无法被修改
-2. Stringlet s = String::from(&quot;Hello, world!&quot;);相当于let s = &quot;Hello, wolrd!&quot;.to_string();String 在 rust 中是一个
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2024/09/20/Rust%E5%9F%BA%E7%A1%80%EF%BC%9A9.%E5%AD%97%E7%AC%A6%E4%B8%B2/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1579,7 +1581,7 @@ let s: &amp;str = &quot;hello world&quot;;&amp;str是一种不可变引用，没
               
                 <a href="/archives/%20%7C%7C%20archive">
               
-                  <span class="site-state-item-count">58</span>
+                  <span class="site-state-item-count">59</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
