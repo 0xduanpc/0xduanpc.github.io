@@ -87,7 +87,7 @@
 <meta property="og:description" content="1. 创建 Anchor 项目1anchor init &lt;new-workspace-name&gt;   app：默认为空，用来放前端代码 programs：合约代码。默认会有一个项目同名文件夹，里面有一个lib.rs文件 tests：测试目录。默认包含一个当前项目名的测试 migrations：合约的部署、迁移脚本 Anchor.toml：项目的配置文件 本地的合约地址（[program">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-10-23T11:35:10.382Z">
-<meta property="article:modified_time" content="2024-10-24T16:45:46.265Z">
+<meta property="article:modified_time" content="2024-11-20T20:10:15.138Z">
 <meta property="article:author" content="0xduanpc">
 <meta name="twitter:card" content="summary">
 
@@ -323,7 +323,7 @@
 <h1 id="3-运行"><a href="#3-运行" class="headerlink" title="3. 运行"></a>3. 运行</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">anchor build</span><br><span class="line">anchor deploy</span><br><span class="line">anchor run <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
 
 <h1 id="4-其他"><a href="#4-其他" class="headerlink" title="4. 其他"></a>4. 其他</h1><ul>
-<li><p>program 预留空间不够时，给对应 program_id 扩容：<br>solana program extend FiucJtgrNWiqZYTv1rDVUD5bHCJ1U5LXkD8B4RADqE7H 20000</p>
+<li><p>account data too small for instruction: program 预留空间不够时，给对应 program_id 扩容：<br>solana program extend FiucJtgrNWiqZYTv1rDVUD5bHCJ1U5LXkD8B4RADqE7H 20000</p>
 </li>
 <li><p>Error: XX write transactions failed<br>There was a problem deploying: Output { status: ExitStatus(unix_wait_status(256)), stdout: “”, stderr: “” }.<br>多试几次即可</p>
 </li>
