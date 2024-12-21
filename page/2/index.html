@@ -862,7 +862,7 @@ mutex 通常被描述为：通过锁定系统来保护它所持有的数据
           
           1. Unit Test1$ cargo new --lib rust-lib
 
-在src/lib.ts中：
+在src/lib.rs中：
 123456789101112131415161718192021222324252627282930313233pub fn add(left: u64, right: u64) -&gt; u64 &#123;    left + right&#125;#[cfg(test)]mod tests &#123;    use super::*;    #[test]    fn it_works() &#123;        let result = add(2, 2);     
           ...
           <!--noindex-->
